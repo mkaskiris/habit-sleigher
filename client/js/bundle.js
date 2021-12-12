@@ -34,6 +34,9 @@ if (document.querySelector("body > .loggedOutNav")) {
 },{"./habit":2,"./login":3}],2:[function(require,module,exports){
 const habitForm = document.querySelector(".task");
 
+
+
+
 function currentUser() {
     const username = localStorage.getItem('username')
     return username;
@@ -68,9 +71,13 @@ if (document.querySelector("body > .hidden_form")) {
         })
     }
 
+    
+
+   
+
     async function habitlist() {
         try {
-                updateData()
+                
             
                 const getHabitCount = await fetch(`http://localhost:3000/habits/habits/0/${currentUser()}`)
                 const habitCountData = await getHabitCount.json()
@@ -331,9 +338,17 @@ if (document.querySelector("body > .hidden_form")) {
             console.warn(err)
         }
     }
+
+    // makes sure each function is ran when dom is loaded
+    window.addEventListener('DOMContentLoaded', async function () {
+        await updateData()
+        await habitlist()
+    })
     
     
-    habitlist()
+    
+
+    
 
 }
 
