@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello, Database!</title>
+    <script type="module" src="static/src/index.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+   <header class="w3-container">
+      <h1>Welcome</h1>
+   </header>
+   <div class="w3-container">
+      <div class="w3-container w3-margin w3-green">
+         <h2>Login</h2>
+      </div>
+      <form id="login" class="w3-container">
+         <p>
+            <label>Username</label>
+            <input class="w3-input" type="email" name="email" required>
+         </p>
+         <p>
+            <label>Password</label>
+            <input class="w3-input" type="password" name="password" required>
+         </p>
+         <input class="w3-btn w3-amber" type="submit" value="Login">
+      </form>
+      <div class="w3-container w3-margin w3-blue">
+         <h2>Register</h2>
+      </div>
+      <form id="register" class="w3-container">
+         <p>
+            <label>Name</label>
+            <input class="w3-input" type="text" name="name" required>
+         </p>
+         <p>
+            <label>Email</label>
+            <input class="w3-input" type="email" name="email" required>
+         </p>
+         <p>
+            <label>Password</label>
+            <input class="w3-input" type="password" name="password" required>
+         </p>
+         <input class="w3-btn w3-amber" type="submit" value="Register">
+      </form>
+      <section class="w3-card w3-container w3-margin">
+         <h1>Data</h1>
+         <div class="dashboard-content">
+            <p id="output"></p>
+            <button id="data-button" class="w3-btn w3-amber w3-margin">Get Data</button>
+         </div>
+      </section>
+      <form id="post" class="w3-container">
+         <p>
+            <label>New post</label>
+            <input class="w3-input" type="text" name="body" required>
+         </p>
+         <p>
+            <label>Post id</label>
+            <input class="w3-input" type="text" name="_id">
+         </p>
+         <input class="w3-btn w3-green" type="submit" value="Post">
+      </form>
+      <form id="delete-post" class="w3-container">
+         <p>
+            <label>Post Id</label>
+            <input class="w3-input" type="text" name="post_id" required>
+         </p>
+         <input class="w3-btn w3-red" type="submit" value="Delete">
+      </form>
+   </div>
+</body>
+</html>

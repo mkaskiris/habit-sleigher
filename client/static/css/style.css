@@ -1,0 +1,11 @@
+main {
+   margin-top: 100px;
+}
+
+input[type="submit"] {
+ width:100%
+}
+
+#register {
+   display: none;
+}

@@ -1,0 +1,1 @@
+{"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","sources":["static/css/style.css"],"sourcesContent":["main {\n   margin-top: 100px;\n}\n\ninput[type=\"submit\"] {\n width:100%\n}\n\n#register {\n   display: none;\n}"],"names":[],"version":3,"file":"index.7355eeb8.css.map","sourceRoot":"/__parcel_source_root/"}
