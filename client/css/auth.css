@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&family=Ubuntu&display=swap');
+
+body {
+    font-family: 'Roboto Slab', serif;
+    font-family: 'Ubuntu', sans-serif;
+    text-align: center;
+    margin: 0;
+}
+
+.hidden, .hidden_form {
+    display: none;
+}
+
+
+/* Navigation Bar Code */
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 30px 0 10px;
+    background-color:#EEA9A9;
+}
+
+nav > div {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+nav > div p a {
+    text-decoration: none;
+    color: black;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+section {
+    width: 860px;
+    height: auto;
+    margin: 50px auto;
+    border: 1px solid rgb(179, 179, 166);
+    border-radius: 8px;
+    padding: 10px;
+    
+}
+
+/* Login and Registration Code */
+.reg-section, .log-section {
+    background-color: #85D1E1;
+    border: 1px solid #85D1E1;
+    border-radius: 15px;
+    width: 700px;
+}
+
+.login input, .register input {
+    border-radius: 15px;
+    height: 20px;
+}
+
+.login input[type='submit'], .register input[type='submit'] {
+    height: auto;
+} 
+
+
+.error-reg, .error-log {
+    font-weight: bold;
+}
+
+body > section > h4 {
+    font-weight: normal;
+}
+body > section > h4 > a {
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+
+section > div > section {
+    width: 90%;
+}
+
+form {
+    display: flex;
+    flex-direction: column; 
+}
+
+form > hr {
+    margin: -10px 0 20px 0;
+    border: 1px solid rgb(216, 216, 201);
+}
+
+form > input {
+    margin: 0 auto;
+    margin-top: 5px;
+    margin-bottom: 30px;
+    padding: 6px;
+    border-radius: 7px;
+    width: 70%;
+    border: 1px solid rgb(216, 216, 201);
+}
+
+form > input:last-child {
+    width: auto;
+    background-color: #37d368;
+	text-align: center;
+	padding: 10px 20px;
+	border: none;
+	border-radius: 5px;
+}
+
+
+@media screen and (max-width: 770px) {
+    .reg-section, .log-section {
+        width: 90%;
+    }
+}
