@@ -21,10 +21,10 @@ module.exports = class User {
         })
     }
 
-    static exists(name) {
+    static exists(username) {
         return new Promise(async (resolve, reject) => {
             try {
-                const user = await db.query("SELECT * FROM user_table WHERE username = $1", [name])
+                const user = await db.query("SELECT * FROM user_table WHERE username = $1", [username])
                 resolve(user)
             } catch (err) {
                 reject(err, ": Cannot find if user exists or not")
@@ -38,8 +38,6 @@ module.exports = class User {
                 const newUser = await db.query(`INSERT INTO user_table (username, email, usr_password) VALUES ('${username}', '${email}', '${password}') RETURNING *;`)
                 let user = new User(newUser.rows[0]);
                 resolve(user)
-               
-            
             } catch (err) {
                 reject(`Error creating user: ${err}`)
             }
