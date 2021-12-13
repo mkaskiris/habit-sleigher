@@ -21,15 +21,21 @@ describe('submit login form', () => {
         fetch.resetMocks();
     })
 
-    describe("submits form",  () => {
+    describe("submits forms",  () => {
         let evt;
 
         beforeEach(() => {
             fetch.resetMocks();
             evt =  { preventDefault: jest.fn()}
         })
-        it("gets data", async () => {
+
+        it("submit login", async () => {
             await app.login(evt)
+           
+        })
+
+        it("submit register", async () => {
+            await app.register(evt)
            
         })
     })

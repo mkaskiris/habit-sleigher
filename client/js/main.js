@@ -63,3 +63,5 @@ function showForm(e) {
     const form = e.target.id.replace('-link', '')
     document.getElementById(form).style.display = 'block'
 }
+
+module.exports = { login, register }
