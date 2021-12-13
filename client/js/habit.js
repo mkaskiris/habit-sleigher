@@ -20,7 +20,8 @@ if (document.querySelector("body > .hidden_form")) {
         }  
 
     } else {
-        window.location.href = "login.html"
+        // window.location.hash = "/main#login"
+        window.location.href = "/login.html#login"
         document.querySelector("body > .hidden_form").classList.add("hidden_form")
     }
 
@@ -37,10 +38,6 @@ if (document.querySelector("body > .hidden_form")) {
         })
     }
 
-    
-
-   
-
     async function habitlist() {
         try {
                 
@@ -52,6 +49,7 @@ if (document.querySelector("body > .hidden_form")) {
                     const {input1, div, habitFrequency} = createHabit(data1)
                     
                     input1.addEventListener('click', async (e) => {
+                        updateHabit(data1.habit_id)
                         e.preventDefault()
                     
                         const data2 = { 
@@ -88,15 +86,17 @@ if (document.querySelector("body > .hidden_form")) {
                     div.append(sec1)
 
                     let form4 = document.querySelector(`.inner-habit[name='${data1.habit_id}'] > section > .buttons > .count`);
+                  
                     let form2 = document.querySelector(`.inner-habit[name='${data1.habit_id}'] > section > .buttons > .deletion`);
 
                     form2.addEventListener('submit',  (e) => {
                         deleteHabit(e)
                     })
 
-                    form4.addEventListener('submit', (e) => {
-                        updateHabit(e)
-                    })
+                    // form4.addEventListener('submit', (e) => {
+                    //     alert("here")
+                    //     updateHabit(e)
+                    // })
 
                     if (data1.currfreq === data1.frequency) {
                         document.querySelectorAll(`.inner-habit[name='${data1.habit_id}'] > section > .buttons > .count > input`).forEach(habitCountData => {
@@ -119,6 +119,7 @@ if (document.querySelector("body > .hidden_form")) {
         const div4 = document.createElement("div")
         const h2 = document.createElement("h2");
         const p2 = document.createElement("p");
+        const p3 = document.createElement("p");
         const form = document.createElement("form")
         const input = document.createElement("input");
         const form1 = document.createElement("form");
@@ -127,11 +128,13 @@ if (document.querySelector("body > .hidden_form")) {
 
         let habitFrequency = document.createElement('progress')
         p2.textContent = `${data1.currfreq} / ${data1.frequency}`
+        p3.textContent = `Current Streak: ${data1.currstreak}, Max Streak: ${data1.maxstreak}`
         habitFrequency.setAttribute('max', data1.frequency)
         habitFrequency.setAttribute('value', data1.currfreq)
         div4.setAttribute("class", "leftOver")
         div4.append(habitFrequency)
         div4.append(p2)
+        div4.append(p3)
 
         div.setAttribute("class", "inner-habit")
         div.setAttribute("name", data1.habit_id)
@@ -266,18 +269,14 @@ if (document.querySelector("body > .hidden_form")) {
     }
 
     async function updateHabit(e) {
-        e.preventDefault();
-        const obj = {
-            id: e.target.name
-        }  
+      
         try {
             const options = {
                 method: 'PUT',
-                headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
-                body: JSON.stringify(obj)
+                headers: new Headers({ 'Authorization': localStorage.getItem('token') })
             }
 
-            const r = await fetch(`http://localhost:3000/habits/update/${e.target.name}`, options)
+            const r = await fetch(`http://localhost:3000/habits/update/${e}`, options)
             const data = await r.json()
             if (data.err) {
                 throw Error(data.err)
