@@ -1,53 +1,17 @@
 version: '3'
 services:
-  client:
-    container_name: client
-    build: ./client
-    image: debug_client
-    ports: 
-      - 8080:8080
-    working_dir: /code
-    volumes:
-      - type: bind
-        source: ./client
-        target: /code
-    command: [ "http-server" ]
   server:
     image: node:14
-    ports: 
-      - "3000:3000"
-    environment: 
-      - PORT=3000
-      - PGUSER=postgres
-      - PGHOST=db
-      - PGPASSWORD=pass
-      - PGDATABASE=postgres
-      - PGPORT=5432
-    depends_on:
-      - db
+    working_dir: /server
     volumes:
       - type: bind
         source: ./server
         target: /server
-    working_dir: /server
-    command: bash -c "npm install && npm run seedDev && npm run dev"
-    depends_on:
-      - db
   db:
     image: 'postgres:latest'
-    expose:
-      - "5432"
+    environment:
+     - POSTGRES_USER=postgres
     volumes:
-      - "postgres:/var/lib/postgresql/data"
-      - type: bind
-        source: ./
-        target: /code
-    working_dir: /code
-    environment: 
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=pass
-volumes:
-  postgres:
+      - "./server/db:/docker-entrypoint-initdb.d/:ro"
 
 
