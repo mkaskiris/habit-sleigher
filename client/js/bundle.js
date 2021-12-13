@@ -2,12 +2,15 @@
 const {logout, currentUser} = require('./login');
 const habit = require('./habit')
 
+
 if (document.querySelector("body > .loggedOutNav")) {
     const loggedOutNav = document.querySelector("body > .loggedOutNav");
     const loggedInNav = document.querySelector("body > .loggedInNav");
     const loggedIn = document.querySelector("body > .loggedInNav > div > p a");
 
     if (currentUser()) {
+        
+        
         habit;
         loggedOutNav.classList.add("hidden");
         loggedInNav.classList.remove("hidden");
@@ -72,23 +75,25 @@ if (document.querySelector("body > .hidden_form")) {
         })
     }
 
+    async function run() {
+        const getHabitCount = await fetch(`http://localhost:3000/habits/habits/1/${currentUser()}`)
+        const habitCountData = await getHabitCount.json()
+        return habitCountData
+    }
+
     async function habitlist() {
         try {
-                
-            
-                const getHabitCount = await fetch(`http://localhost:3000/habits/habits/1/${currentUser()}`)
-                const habitCountData = await getHabitCount.json()
-            
-                habitCountData.forEach(async data1 => {
+                let dat = await run()
+
+                dat.forEach(async data1 => {
                     const {input1, div, habitFrequency} = createHabit(data1)
                     
                     input1.addEventListener('click', async (e) => {
                         updateHabit(data1.habit_id)
                         e.preventDefault()
-                    
+                                         
                         const data2 = { 
-                            habit_id: data1.habit_id, 
-                            finished: true 
+                            habit_id: data1.habit_id
                         }
 
                         try {
@@ -146,6 +151,7 @@ if (document.querySelector("body > .hidden_form")) {
     }
 
     function createHabit(data1) {
+        data1.maxstreak
         const sec = document.querySelector("body > .habit-list");
         const div = document.createElement("div");
         const div2 = document.createElement("div")
@@ -162,7 +168,8 @@ if (document.querySelector("body > .hidden_form")) {
 
         let habitFrequency = document.createElement('progress')
         p2.textContent = `${data1.currfreq} / ${data1.frequency}`
-        p3.textContent = `Current Streak: ${data1.currstreak}, Max Streak: ${data1.maxstreak}`
+        // p3.textContent = `Current Streak: ${data1.currstreak}, Max Streak: ${data1.maxstreak}`
+        p3.textContent = `Your best streak: ${data1.maxstreak}`
         habitFrequency.setAttribute('max', data1.frequency)
         habitFrequency.setAttribute('value', data1.currfreq)
         div4.setAttribute("class", "leftOver")
@@ -342,16 +349,18 @@ if (document.querySelector("body > .hidden_form")) {
         }
     }
 
+
+
     // makes sure each function is ran when dom is loaded
     window.addEventListener('DOMContentLoaded', async function () {
+        await run()
         await updateData()
         await habitlist()
+        
     })
     
     
-    
 
-    
 
 }
 

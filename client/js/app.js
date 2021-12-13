@@ -1,12 +1,15 @@
 const {logout, currentUser} = require('./login');
 const habit = require('./habit')
 
+
 if (document.querySelector("body > .loggedOutNav")) {
     const loggedOutNav = document.querySelector("body > .loggedOutNav");
     const loggedInNav = document.querySelector("body > .loggedInNav");
     const loggedIn = document.querySelector("body > .loggedInNav > div > p a");
 
     if (currentUser()) {
+        
+        
         habit;
         loggedOutNav.classList.add("hidden");
         loggedInNav.classList.remove("hidden");
