@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "unitTests": "jest --testPathPattern=/unit/ --watchAll --verbose",
     "node": "node index.js",
     "seedDev": "node db/seedDev.js",
     "dev": "node db/seedDev.js && nodemon index.js",
@@ -25,6 +26,8 @@
   },
   "devDependencies": {
     "concurrently": "^6.4.0",
+    "jest": "^27.4.4",
+    "supertest": "^6.1.6",
     "watchify": "^4.0.0"
   }
 }
