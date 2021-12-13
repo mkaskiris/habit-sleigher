@@ -60,8 +60,8 @@ module.exports = class Habit {
         return new Promise (async (resolve, reject) => {
             try {
                 const getUser = await db.query("SELECT user_id FROM user_table WHERE username = $1", [user_id])
-              
-                const newHabit = await db.query("INSERT INTO habit (habit, currFreq, frequency, currTime, user_id) VALUES ($1, $2, $3, $4, $5) RETURNING *;", [habit, 0, frequency, new Date().toLocaleDateString('en-GB'), getUser.rows[0].user_id])
+                
+                const newHabit = await db.query("INSERT INTO habit (habit, currFreq, frequency, user_id) VALUES ($1, $2, $3, $4) RETURNING *;", [habit, 0, frequency, getUser.rows[0].user_id])
                 let habit1 = new Habit(newHabit.rows[0]);
                 resolve(habit1)
         
