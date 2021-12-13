@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HabitSleigher</title>
+    <script defer src="js/main-bundle.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-food.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-colors-vivid.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+   <header class="w3-bar w3-vivid-pink">
+      <h2 class="w3-bar-item w3-text-black" id="HabitSleigher">HabitSleigher</h2>
+   </header>
+   <main>
+      <div class="w3-row">
+         <div class="w3-col s1 m2"><p></p></div>
+         <div class="w3-card w3-light-blue w3-col s10 m8 w3-round-xlarge">
+            <div class="w3-row w3-padding">
+               <a href="#login" class="tablink">
+                  <div id="login-link" class="w3-half w3-bottombar w3-border-light-green w3-hover-light-grey w3-padding tab-border w3-text-black">Login</div>
+               </a>
+               <a href="#register" class="tablink">
+                  <div id="register-link" class="w3-half w3-bottombar w3-hover-light-grey w3-padding tab-border w3-text-black">Register</div>
+               </a>
+            </div>
+            <form id="login" class="w3-container w3-margin-top">
+               <input class="w3-input w3-margin-bottom w3-round-large" type="email" name="email" placeholder="email" required>
+               <input class="w3-input w3-margin-bottom w3-round-large" type="password" name="password" placeholder="password" required>
+               <input class="w3-btn w3-food-spearmint w3-margin-bottom w3-round-large" type="submit" value="Login">
+            </form>
+            <form id="register" class="w3-container w3-margin-top">
+               <input class="w3-input w3-margin-bottom w3-round-large" type="text" name="username" placeholder="name" required>
+               <input class="w3-input w3-margin-bottom w3-round-large" type="email" name="email" placeholder="email" required>
+               <input class="w3-input w3-margin-bottom w3-round-large" type="password" name="password" placeholder="password" required>
+               <input class="w3-btn w3-food-spearmint w3-margin-bottom w3-round-large" type="submit" value="Register">
+            </form>
+         </div>
+         <div class="w3-container w3-center">
+            <p id="output"></p>
+         </div>
+      </div>
+   </main>
+</body>
+</html>
