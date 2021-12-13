@@ -24,10 +24,10 @@ router.get('/:name', verifyToken, async (req, res) => {
     }
 })
 
-router.post('/:user_id', async (req, res) => {
+router.post('/:username', async (req, res) => {
     try {
-        const {user_id} = req.params
-        const habit = await Habit.createHabit({...req.body, user_id})
+        const {username} = req.params
+        const habit = await Habit.createHabit({...req.body, username})
         res.status(201).json(habit)
     } catch (err) {
         res.status(500).send({ err })
