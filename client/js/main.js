@@ -64,4 +64,4 @@ function showForm(e) {
     document.getElementById(form).style.display = 'block'
 }
 
-module.exports = {login}
+module.exports = { login, register }
