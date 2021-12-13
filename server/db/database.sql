@@ -31,10 +31,11 @@ INSERT INTO user_table(username, email, usr_password)
         ('test', 'test@gmail.com', '$2a$10$bSQ6V2lYWaTS.KH3K81De.Yvaf2RoNcZcU3BcsZqsdVirBvs.EkzS');
 
 
-INSERT INTO habit (habit, user_id, currFreq, frequency) 
+INSERT INTO habit (habit, user_id, currTime, currFreq, frequency) 
     VALUES 
-        ('drink water', 1, 4, 4),
-        ('drink waters', 1, 4, 4);
+        ('drink water', 1, current_timestamp - INTERVAL '2 day', 4, 4),
+        ('go running', 1, current_timestamp - INTERVAL '3 day', 4, 4),
+        ('have breakfast', 1, current_timestamp - INTERVAL '1 day', 1, 1);
 
 
 INSERT INTO habit_counter(habit_id, time_done, finished)
@@ -55,6 +56,9 @@ INSERT INTO habit_counter(habit_id, time_done, finished)
         (2, current_timestamp - INTERVAL '1 day', TRUE),
         (2, current_timestamp - INTERVAL '2 day', TRUE),
         (2, current_timestamp - INTERVAL '2 day', TRUE),
-        (2, current_timestamp - INTERVAL '2 day', TRUE);
+        (2, current_timestamp - INTERVAL '2 day', TRUE),
+        (2, current_timestamp - INTERVAL '3 day', TRUE),
+
+        (3, current_timestamp - INTERVAL '1 day', TRUE);
 
 

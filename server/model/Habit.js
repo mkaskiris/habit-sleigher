@@ -41,13 +41,29 @@ module.exports = class Habit {
             try {
                 const arr = []
                
+                const days = await db.query("SELECT date_trunc('day', now() - currTime::date) FROM habit WHERE habit_id = $1", [id]);
+                let difference = days.rows[0].date_trunc.days;
+
                 const dayBefore = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 1;`, [id]);
                 const dayBefore2 = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 2;`, [id]);
                 const dayBefore3 = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 3;`, [id]);
                 
-                arr.push(parseInt(dayBefore.rows[0].count))
-                arr.push(parseInt(dayBefore2.rows[0].count))
-                arr.push(parseInt(dayBefore3.rows[0].count))
+                    resolve(arr)
+                if (difference == undefined) {
+                    resolve(arr);
+                } else if (difference == 1) {
+                    arr.push(parseInt(dayBefore.rows[0].count))
+                    resolve(arr)
+                } else if (difference == 2) {
+                    arr.push(parseInt(dayBefore.rows[0].count))
+                    arr.push(parseInt(dayBefore2.rows[0].count))
+                    resolve(arr)
+                } else if (difference == 3) {
+                    arr.push(parseInt(dayBefore.rows[0].count))
+                    arr.push(parseInt(dayBefore2.rows[0].count))
+                    arr.push(parseInt(dayBefore3.rows[0].count))
+                    resolve(arr)
+                }
                 resolve(arr)
 
             } catch(err) {
@@ -103,7 +119,7 @@ module.exports = class Habit {
         })
     }
 
-    static createHabitEntry(data) {
+    static newHabitEntry(data) {
         return new Promise(async (resolve, reject) => {
           try {
             const habitMaxCounter = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE habit_id = ${data.habit_id} AND time_done::DATE = current_date `)
@@ -115,7 +131,7 @@ module.exports = class Habit {
                 const newHabitEntry = insertHabitCounter.rows[0];
                 resolve(newHabitEntry)
             } else  {
-              error('Too many habits')
+              reject('ERROR!')
             } 
           } catch (error) {
             reject(`Could not create a new habit entry! Try again`);

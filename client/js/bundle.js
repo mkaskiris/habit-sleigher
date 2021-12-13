@@ -146,7 +146,6 @@ if (document.querySelector("body > .hidden_form")) {
     }
 
     function createHabit(data1) {
-    
         const sec = document.querySelector("body > .habit-list");
         const div = document.createElement("div");
         const div2 = document.createElement("div")
@@ -221,19 +220,24 @@ if (document.querySelector("body > .hidden_form")) {
         const oldInfo = await old.json()
         const d = new Date();
         d.setDate(d.getDate()-1);
-        
-        oldDateP.textContent = `${d.toLocaleDateString('en-GB')}: ${oldInfo[0]} / ${data.frequency}`
+     
+        if (oldInfo[0] !== undefined) {
+            oldDateP.textContent = `${d.toLocaleDateString('en-GB')}: ${oldInfo[0]} / ${data.frequency}`
+        } else {
+            oldDateP.textContent = `No past data!`
+        }
 
         const d1 = new Date();
         d1.setDate(d1.getDate()-2);
-        
+        if (oldInfo[1] !== undefined) {
         oldDateP2.textContent = `${d1.toLocaleDateString('en-GB')}: ${oldInfo[1]} / ${data.frequency}`
+        }
 
         const d2 = new Date();
         d2.setDate(d2.getDate()-3);
-        
+        if (oldInfo[2] !== undefined) {
         oldDateP3.textContent = `${d2.toLocaleDateString('en-GB')}: ${oldInfo[2]} / ${data.frequency}`
-          
+        }
         return {oldDateP, oldDateP2, oldDateP3, sec1}
     }
 

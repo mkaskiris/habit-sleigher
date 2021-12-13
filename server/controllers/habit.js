@@ -69,9 +69,8 @@ router.post('/:username/habits/entries', async (req, res) => {
     try {
         //check if valid jwt is for the requested user
         // if (res.locals.user !== req.params.username) throw err
-        const jsDate = new Date().toLocaleString('en-US', {timeZone: 'Europe/London'})
-        const habitEntry = await Habit.createHabitEntry({ ...req.body, date: jsDate});
-        res.status(201).json(habitEntry)
+        const habit = await Habit.newHabitEntry({ ...req.body, date: new Date().toLocaleString('en-US', {timeZone: 'Europe/London'})});
+        res.status(201).json(habit)
       } catch (err) {
         res.status(403).send({ err: err })
       }

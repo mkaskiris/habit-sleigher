@@ -51,8 +51,6 @@ section {
     border: 1px solid #DBF2CD;
     background-color: #DBF2CD;
     border-radius: 8px;
-    display: flex;
-    flex-direction: column;
     margin: 10px auto;
     
 }
