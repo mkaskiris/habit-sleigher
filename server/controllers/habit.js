@@ -41,7 +41,7 @@ router.put('/update/:habit_id', async (req, res) => {
         res.status(201).json(update)
 
     } catch (err) {
-        res.status(500).send({ err })
+        res.status(500).send({ err: "error updating counter" })
     }
 })
 

@@ -35,9 +35,16 @@ module.exports = class User {
    static register({ username, email, password }) {
        return new Promise(async (resolve, reject) => {
             try {
-                const newUser = await db.query(`INSERT INTO user_table (username, email, usr_password) VALUES ('${username}', '${email}', '${password}') RETURNING *;`)
-                let user = new User(newUser.rows[0]);
-                resolve(user)
+                const findUser = await db.query(`SELECT * FROM user_table WHERE username = '${username}'`)
+                const findEmail = await db.query(`SELECT * FROM user_table WHERE email = '${email}'`)
+
+                if (!findUser.rows.length && !findEmail.rows.length) {
+                    const newUser = await db.query(`INSERT INTO user_table (username, email, usr_password) VALUES ('${username}', '${email}', '${password}') RETURNING *;`)
+                    let user = new User(newUser.rows[0]);
+                    resolve(user)
+                } else {
+                    reject('User already exists!')  
+                }
                
             
             } catch (err) {
