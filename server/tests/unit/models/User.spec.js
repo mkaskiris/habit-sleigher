@@ -11,9 +11,17 @@ const db = require('../../../db/db');
 const testUser = {
     user_id: 'testing',
     username: 'test_usr',
-    email: 'test:test.com',
+    email: 'test@test.com',
     usr_password: '123'
 }
+
+const testUser2 = {
+    user_id: '3',
+    username: 'habitsleigher',
+    email: 'habitsleigher@gmail.com',
+    usr_password: 'habit'
+}
+
 describe('Habit', () =>{
     beforeEach(() => jest.clearAllMocks())
     
@@ -40,9 +48,9 @@ describe('Habit', () =>{
     describe('register', ()=>{
         test('resolves all users', async () =>{
             jest.spyOn(db, 'query')
-                .mockResolvedValueOnce({rows: [testUser]})
-            const result = await User.register(testUser.username, testUser.email, testUser.usr_password)
-            expect(result).toHaveProperty('user_id', 'testing');
+                .mockResolvedValueOnce({rows: [testUser2]})
+            const result = await User.register(testUser2.username, testUser2.email, testUser2.usr_password)
+            expect(result).toHaveProperty('user_id', '3');
         })
     })
 
