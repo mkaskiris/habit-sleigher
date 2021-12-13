@@ -16,7 +16,7 @@ module.exports = class User {
                 let user = allUsers.rows.map(user => new User(user));
                 resolve(user)
             } catch (err) {
-                reject("User not found!")
+                reject(`User not found! ${err}`)
             }
         })
     }
