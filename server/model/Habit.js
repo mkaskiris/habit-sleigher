@@ -88,11 +88,11 @@ module.exports = class Habit {
 
             try {
                 const currFreq = await db.query("SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date", [habit_id]);
-                const updateHabit = await db.query("UPDATE habit SET currfreq = $1 WHERE habit_id = $2 RETURNING *;", [currFreq.rows[0].count, habit_id])
+                await db.query("UPDATE habit SET currfreq = $1 WHERE habit_id = $2;", [currFreq.rows[0].count, habit_id])
                 
-                const getUser = await db.query("SELECT user_id FROM user_table WHERE username = $1", [username])
+                const getUser = await db.query("SELECT user_id FROM user_table WHERE username = $1;", [username])
 
-                const data = await db.query("SELECT * FROM habit WHERE user_id = $1 ORDER BY habit_id DESC", [parseInt(getUser.rows[0].user_id)])
+                const data = await db.query("SELECT * FROM habit WHERE user_id = $1 ORDER BY habit_id DESC;", [parseInt(getUser.rows[0].user_id)])
                 
                 resolve(data)
                 
@@ -109,16 +109,16 @@ module.exports = class Habit {
             const habitMaxCounter = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE habit_id = ${data.habit_id} AND time_done::DATE = current_date `)
             const habitFrequency = await db.query(`SELECT frequency FROM habit WHERE habit_id = ${data.habit_id}`)
             if (habitMaxCounter.rows[0].count < habitFrequency.rows[0].frequency) {
-                const updateHabit = await db.query("UPDATE habit SET currfreq = $1 WHERE habit_id = $2 RETURNING *;", [parseInt(habitMaxCounter.rows[0].count) + 1, data.habit_id])
+                await db.query("UPDATE habit SET currfreq = $1 WHERE habit_id = $2;", [parseInt(habitMaxCounter.rows[0].count) + 1, data.habit_id])
                 const insertHabitCounter = await db.query(`INSERT INTO habit_counter (habit_id, time_done, finished) VALUES (${data.habit_id}, '${data.date}', ${data.finished}) RETURNING *;`);
               
                 const newHabitEntry = insertHabitCounter.rows[0];
                 resolve(newHabitEntry)
             } else  {
-              error('Too many habits')
+              throw new Error('Too many habits')
             } 
           } catch (error) {
-            reject(`Could not create a new habit entry! Try again`);
+                reject(`Could not create a new habit entry! Try again: ${error}`);
           }
         });
       }

@@ -45,10 +45,10 @@ router.put('/update/:habit_id', async (req, res) => {
     }
 })
 
-router.get('/habits/:habit_id/:user_id', async (req, res) => {
+router.get('/habits/:habit_id/:username', async (req, res) => {
     try {
-        const {habit_id, user_id} = req.params
-        const getData = await Habit.getHabits(habit_id, user_id)
+        const {habit_id, username} = req.params
+        const getData = await Habit.getHabits(habit_id, username)
         res.status(201).json(getData.rows)
     } catch (err) {
         res.status(403).send({err: err})

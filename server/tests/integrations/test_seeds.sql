@@ -12,6 +12,12 @@ INSERT INTO habit (habit, user_id, currTime, currFreq, frequency)
         ('test2', 1, current_timestamp - INTERVAL '3 day', 4, 4),
         ('test3', 1, current_timestamp - INTERVAL '1 day', 1, 1);
 
+        ('test1', 2, current_timestamp - INTERVAL '2 day', 1, 5),
+        ('test2', 2, current_timestamp - INTERVAL '3 day', 0, 2),
+        ('test3', 2, current_timestamp - INTERVAL '1 day', 2, 4);
+
+        
+
 
 INSERT INTO habit_counter(habit_id, time_done, finished)
     VALUES

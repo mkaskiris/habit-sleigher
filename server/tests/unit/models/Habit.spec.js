@@ -61,13 +61,16 @@ describe('Habit', () =>{
     })
 
     //getOldHabits
-    // describe('getOldHabits', () =>{
-    //     test('returns an array of old habbits', async () =>{
-    //         jest.spyOn(db, 'query').mockResolvedValueOnce({rows:{}});
-    //         const result = await Habit.getOldHabits(1);
-    //         expect(result).toHaveLength(0)
-    //     })
-    // })
+    describe('getOldHabits', () =>{
+        test('returns an array of old habbits', async () =>{
+            jest.spyOn(db, 'query')
+                .mockResolvedValueOnce({rows:[{count: 3}]})
+                .mockResolvedValueOnce({rows:[{count: 4}]})
+                .mockResolvedValueOnce({rows:[{count: 5}]})
+            const result = await Habit.getOldHabits(1);
+            expect(result).toHaveLength(3)
+        })
+    })
 
     //creathabit
     describe('createHabit', () =>{
@@ -83,7 +86,7 @@ describe('Habit', () =>{
         })
     })
 
-    // //deltehabit
+    // //deltehabit - prolly dont need here
     // describe('deleteHabit', () =>{
     //     test('', async () =>{
     //         jest.spyOn(db, )
@@ -91,16 +94,37 @@ describe('Habit', () =>{
     // })
 
     // //getHabits
-    // describe('getHabits', () =>{
-    //     test('', async () =>{
-    //         jest.spyOn(db, )
-    //     })
-    // })
+    describe('getHabits', () =>{
+        test('resolves with updated habit currfreq', async () =>{
+            const testHabit = {                
+                habit_id: 1,
+                habit: 'test_habit',
+                user_id: 10,
+                currTime: 'current time',
+                currfreq: 4,
+                frequency: 4
+            }
+
+            jest.spyOn(db, 'query')
+                .mockResolvedValueOnce({rows: [3]})
+                .mockResolvedValueOnce({})
+                .mockResolvedValueOnce({rows: [10]})
+                .mockResolvedValueOnce({rows: testHabit})
+            const result = await Habit.getHabits(1, 'test')
+            expect(result.rows).toHaveProperty('currfreq',4);
+        })
+    })
 
     // //createHabitEntry
-    // describe('createHabitEntry', () =>{
-    //     test('', async () =>{
-    //         jest.spyOn(db, )
-    //     })
-    // })
+    describe('createHabitEntry', () =>{
+        test('resolves with new habit entry', async () =>{
+            jest.spyOn(db, 'query')
+                .mockResolvedValueOnce({rows: [{count: 3}]})
+                .mockResolvedValueOnce({rows: [{frequency: 4}]})
+                .mockResolvedValueOnce({})
+                .mockResolvedValueOnce({rows: [habits[0]]})
+            const result = await Habit.createHabitEntry(habits[0])
+            expect(result).toHaveProperty('habit_id',1);
+        })
+    })
 })
