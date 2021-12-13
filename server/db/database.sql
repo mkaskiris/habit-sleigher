@@ -9,6 +9,8 @@ CREATE TABLE habit (
     habit_id SERIAL PRIMARY KEY,
     habit VARCHAR(255),
     user_id INT,
+    currStreak INTEGER DEFAULT 0,
+    maxStreak INTEGER DEFAULT 0,
     currTime timestamp DEFAULT CURRENT_timestamp,
     currFreq INTEGER,
     frequency INTEGER,

@@ -104,7 +104,7 @@ module.exports = class Habit {
 
             try {
                 const currFreq = await db.query("SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date", [habit_id]);
-                const updateHabit = await db.query("UPDATE habit SET currfreq = $1 WHERE habit_id = $2 RETURNING *;", [currFreq.rows[0].count, habit_id])
+                await db.query("UPDATE habit SET currfreq = $1 WHERE habit_id = $2;", [currFreq.rows[0].count, habit_id])
                 
                 const getUser = await db.query("SELECT user_id FROM user_table WHERE username = $1", [user_id])
 

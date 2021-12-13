@@ -79,7 +79,7 @@ if (document.querySelector("body > .hidden_form")) {
         try {
                 
             
-                const getHabitCount = await fetch(`http://localhost:3000/habits/habits/0/${currentUser()}`)
+                const getHabitCount = await fetch(`http://localhost:3000/habits/habits/1/${currentUser()}`)
                 const habitCountData = await getHabitCount.json()
             
                 habitCountData.forEach(async data1 => {
