@@ -8,29 +8,24 @@ const jwt = require("jsonwebtoken");
 const User = require('../model/User');
 const {verifyToken} = require('../middleware/auth')
 
-router.get('/', async(req, res) => {
+router.get('/', index)
+
+async function index(req, res) {
     try {
         const users = await User.all
         res.status(200).json(users)
     } catch (err) {
         res.status(500).send({ err })
     }
-})
+}
 
-router.get('/getUser/:name', async (req, res) => {
-    try {
-        const users = await User.getUser
-        res.status(200).json(users)
-    } catch (err) {
-        res.status(500).send({ err })
-    }
-})
+router.get('/exists/:name', verifyToken, find)
 
-router.get('/exists/:name', verifyToken, async (req, res) => {
+async function find (req, res) {
     try {
         const findUser = await User.exists(req.params.name)
             if (!findUser.rows.length) {
-                res.status(201).json({msg: 'No user!'})
+                res.status(404).json({msg: 'No user!'})
             } else {
                 res.status(201).json({msg: 'User found'})
             }
@@ -38,9 +33,11 @@ router.get('/exists/:name', verifyToken, async (req, res) => {
     } catch (err) {
         res.status(500).send({ err: "ERROR FINDING NAMES" })
     }
-})
+}
 
-router.post('/register', async (req, res) => {
+router.post('/register', register)
+
+async function register (req, res){
 
     try {
         const salt = await bcrypt.genSalt();
@@ -52,9 +49,11 @@ router.post('/register', async (req, res) => {
     } catch (err) {
         res.status(500).json({err: "Username or email already exists!"});
     }
-})
+}
 
-router.post('/login', async (req, res) => {
+router.post('/login', login)
+
+async function login(req, res){
 
     try {
         const user = await User.findByEmail(req.body.email)
@@ -63,7 +62,6 @@ router.post('/login', async (req, res) => {
         if (!!authed){
             const payload = { username: user.username, email: user.email }
             const sendToken = (err, token) => {
-                
                 if(err) { 
                     throw new Error('Error in token generation') 
                 }
@@ -72,9 +70,8 @@ router.post('/login', async (req, res) => {
                     token: "Bearer " + token,
                 });
             }
-            
-
             jwt.sign(payload, process.env.SECRET, sendToken);
+            res.status(200);
         } else {
             throw new Error('User could not be authenticated')  
         }
@@ -82,6 +79,13 @@ router.post('/login', async (req, res) => {
     } catch (err) {
         res.status(401).json({ err: "User does not exist or could not be authenticated" });
     }
-})
+}
 
-module.exports = router
+module.exports = 
+        {
+           router, 
+           index,
+           register,
+           find,
+           login
+        }

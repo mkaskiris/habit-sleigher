@@ -114,7 +114,8 @@ module.exports = class Habit {
 
     }
 
-    static updateStreak(habit_id) {
+    //increments streak in habit table
+    static appendStreak(habit_id) {
         return new Promise(async (resolve, reject) => {
             try {
               
