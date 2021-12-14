@@ -145,7 +145,8 @@ module.exports = class Habit {
         })
     }
 
-    static getHabits(habit_id, username) {
+    //still in progress
+    static getHabits(habit_id, user_id) {
         return new Promise(async (resolve, reject) => {
             try {
                 const currFreq = await db.query("SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date", [habit_id]);
