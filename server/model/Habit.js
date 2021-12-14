@@ -4,7 +4,7 @@ module.exports = class Habit {
     constructor(data) {
         this.habit_id = data.habit_id,
         this.habit = data.habit,
-        this.user_id = data.user_id,
+        this.user_id = data.user_id
         this.currTime = data.currTime,
         this.currfreq = data.currfreq,
         this.frequency = data.frequency
@@ -115,7 +115,7 @@ module.exports = class Habit {
     }
 
     //increments streak in habit table
-    static appendStreak(habit_id) {
+    static updateStreak(habit_id) {
         return new Promise(async (resolve, reject) => {
             try {
               
@@ -148,50 +148,36 @@ module.exports = class Habit {
     static getHabits(habit_id, username) {
         return new Promise(async (resolve, reject) => {
             try {
-                const userId = await db.query("SELECT user_id FROM user_table WHERE username = $1", [username])
-                
-                const habits = await db.query("SELECT * FROM habit WHERE user_id = $1 AND habit_id = $2", [userId.rows[0].user_id, habit_id]);
-                
-                const prevFreq = await db.query("SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 1", [habit_id]);
                 const currFreq = await db.query("SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date", [habit_id]);
                 await db.query("UPDATE habit SET currfreq = $1 WHERE habit_id = $2", [currFreq.rows[0].count, habit_id])
-    
-                const currStreak = await db.query("SELECT currstreak FROM habit WHERE habit_id = $1;", [habit_id]);
-                const maxStreak = await db.query("SELECT maxstreak FROM habit WHERE habit_id = $1;", [habit_id]);
 
-                const maxFreq = await db.query("SELECT frequency FROM habit WHERE habit_id = $1", [habit_id])
+                const getYesterdayStreak = await db.query("SELECT DISTINCT(time_done::DATE), SUM(CASE WHEN completedstreak = TRUE THEN 1 ELSE 0 END) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 1 GROUP BY time_done;", [habit_id])
+                const getTodaysStreak = await db.query("SELECT DISTINCT(time_done::DATE), SUM(CASE WHEN completedstreak = TRUE THEN 1 ELSE 0 END) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date GROUP BY time_done;", [habit_id])
+            
+        
+                const findHabitId = await db.query("SELECT * FROM habit WHERE habit_id = $1", [habit_id])
+                if (findHabitId.rows.length) {
+                    if (getYesterdayStreak.rows.length < 1) {
+                        if (getTodaysStreak.rows.length < 1) {
+                            await db.query("UPDATE habit SET currstreak = 0 WHERE habit_id = $1", [habit_id])
+                        }
+                    }
 
-                if (prevFreq.rows[0].count != maxFreq.rows[0].frequency) {
-                    console.log("IN HERE")
-                //     await db.query("UPDATE habit SET currstreak = 0 WHERE habit_id = $1;", [habit_id])
-                } 
-                // ) else {
-                //     Habit.appendStreak(habit_id)
-                // }
-                // const allLists = await db.query("SELECT DATE(time_done), COUNT(habit_id) FROM habit_counter WHERE habit_id = $1 AND DATE(time_done) != current_date GROUP BY CAST(time_done AS DATE);", [habit_id])
-                // const maxFreq = await db.query("SELECT frequency FROM habit WHERE habit_id = $1", [habit_id])
-                // const newArray= allLists.rows.map(element => element.count);
-                
-                // let count = 0;
-                // for (let i = 0; i < newArray.length; i++) {
-                //     if (parseInt(newArray[i]) === parseInt(maxFreq.rows[0].frequency)) {
-                //         count += 1;
-                //         await db.query(`UPDATE habit SET currstreak = ${count} WHERE habit_id = $1`, [habit_id])
-                //     }
-                // }
-                if (parseInt(currFreq.rows[0].count) === parseInt(maxFreq.rows[0].frequency)) {
-                    await db.query("UPDATE habit SET currstreak = currstreak + 1 WHERE habit_id = $1", [habit_id]);
+                    if (parseInt(getYesterdayStreak.rows[getYesterdayStreak.rows.length - 1].sum) == 1) {
+                        if (getTodaysStreak.rows.length < 1 || getTodaysStreak.rows[getTodaysStreak.rows.length - 1].sum == '0') {
+                            await db.query("UPDATE habit SET currstreak = $1 WHERE habit_id = $2", [getYesterdayStreak.rows[getYesterdayStreak.rows.length - 1].sum, habit_id]);
+                        }
+                    }
+
+                    if (getTodaysStreak.rows.length) {
+                        if (parseInt(getTodaysStreak.rows[getTodaysStreak.rows.length - 1].sum) == 1) {
+                            await db.query("UPDATE habit SET currstreak = $1 WHERE habit_id = $2", [parseInt(getYesterdayStreak.rows[getYesterdayStreak.rows.length - 1].sum) + parseInt(getTodaysStreak.rows[1].sum), habit_id]);
+                        }
+                    }
                 }
 
-                // if (currStreak.rows[0].currstreak >= maxStreak.rows[0].maxstreak) {
-                //     await db.query("UPDATE habit SET maxstreak = $1 WHERE habit_id = $2", [currStreak.rows[0].currstreak, habit_id]);
-                // }
-
-                const getUser = await db.query("SELECT user_id FROM user_table WHERE username = $1", [username])
-                
-    
-                const data = await db.query("SELECT * FROM habit WHERE user_id = $1", [parseInt(getUser.rows[0].user_id)])
-                
+                const getUser = await db.query("SELECT user_id FROM user_table WHERE username = $1;", [username])
+                const data = await db.query("SELECT * FROM habit WHERE user_id = $1 ORDER BY habit_id DESC;", [parseInt(getUser.rows[0].user_id)])
                 
                 resolve(data)
                 
@@ -203,38 +189,22 @@ module.exports = class Habit {
         })
     }
 
-    // static appendStreak(habit_id) {
-    //     console.log(habit_id)
-    //     return new Promise(async (resolve, reject) => {
-    //         try {
-    //             const prevFreq = await db.query("SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 1", [habit_id]);
-    //             const maxFreq = await db.query("SELECT frequency FROM habit WHERE habit_id = $1", [habit_id])
-    //             const currStreak = await db.query("SELECT currstreak FROM habit WHERE habit_id = $1;", [habit_id]);
-    //             console.log(prevFreq.rows[0].count == maxFreq.rows[0].frequency)
-    //             if (prevFreq.rows[0].count == maxFreq.rows[0].frequency) {
-    //                 await db.query("UPDATE habit SET currstreak = $1 WHERE habit_id = $2;", [parseInt(currStreak.rows[0].currstreak) + 1, habit_id])
-    //             }
-    //             console.log("done")
-    //             resolve("Appended!")
-    //         } catch (error) {
-    //             reject("cannot append streak", error)
-    //         }
-    //     })
-    // }
-
     static newHabitEntry(data) {
         return new Promise(async (resolve, reject) => {
           try {
             const habitMaxCounter = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE habit_id = ${data.habit_id} AND time_done::DATE = current_date `)
             const habitFrequency = await db.query(`SELECT frequency FROM habit WHERE habit_id = ${data.habit_id}`)
-            if (habitMaxCounter.rows[0].count < habitFrequency.rows[0].frequency) {
+            if (parseInt(habitMaxCounter.rows[0].count) + 1 < parseInt(habitFrequency.rows[0].frequency)) {
                 const updateHabit = await db.query("UPDATE habit SET currfreq = $1 WHERE habit_id = $2 RETURNING *;", [parseInt(habitMaxCounter.rows[0].count) + 1, data.habit_id])
-                const insertHabitCounter = await db.query(`INSERT INTO habit_counter (habit_id, time_done) VALUES (${data.habit_id}, '${data.date}') RETURNING *;`);
+                const insertHabitCounter = await db.query(`INSERT INTO habit_counter (habit_id, time_done, completedStreak) VALUES (${data.habit_id}, '${data.date}', FALSE) RETURNING *;`);
 
                 const newHabitEntry = insertHabitCounter.rows[0];
                 resolve(newHabitEntry)
-            } else  {
-              reject('ERROR!')
+            } 
+            else if (parseInt(habitMaxCounter.rows[0].count) + 1 == parseInt(habitFrequency.rows[0].frequency))  {
+                const insertHabitCounter = await db.query(`INSERT INTO habit_counter (habit_id, time_done, completedStreak) VALUES (${data.habit_id}, '${data.date}', TRUE) RETURNING *;`);
+                const newHabitEntry = insertHabitCounter.rows[0];
+                resolve(newHabitEntry)
             } 
           } catch (error) {
             reject(`Could not create a new habit entry! Try again`);

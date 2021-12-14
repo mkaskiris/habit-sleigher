@@ -1,12 +1,4 @@
-require('dotenv').config();
-
-const express = require('express');
-const router = express.Router();
 const Habit = require('../model/Habit');
-const {verifyToken} = require('../middleware/auth')
-
-
-router.get('/', verifyToken, getHabits)
 
 async function getHabits (req, res){
     try {
@@ -17,8 +9,6 @@ async function getHabits (req, res){
     }
 }
 
-router.get('/:name', verifyToken, getName)
-
 async function getName (req, res){
     try {
         const habit = await Habit.getByName(req.params.name);
@@ -28,9 +18,7 @@ async function getName (req, res){
     }
 }
 
-router.post('/:username', updateHabit)
-
-async function updateHabit (req, res){
+async function create (req, res){
     try {
         const {username} = req.params
         const habit = await Habit.createHabit({...req.body, username})
@@ -40,7 +28,7 @@ async function updateHabit (req, res){
     }
 }
 
-router.put('/update/:habit_id', async (req, res) => {
+async function update (req, res){
     try {
         const {habit_id} = req.params;
         const update = await Habit.updateStreak(habit_id);
@@ -48,20 +36,20 @@ router.put('/update/:habit_id', async (req, res) => {
     } catch (err) {
         res.status(500).send({ err: "error updating counter" })
     }
-})
+}
 
-router.get('/habits/:habit_id/:username', async (req, res) => {
+async function getUserHabits (req, res){
     try {
         const {habit_id, username} = req.params
         const getData = await Habit.getHabits(habit_id, username)
-        res.status(200).json(getData.rows)
-        console.log(getData.rows)
+        res.status(201).json(getData.rows)
     } catch (err) {
-        res.status(403).send({err: "Error: cannot get the habit"})
+        res.status(403).send({err: err})
     }
-})
+}
 
-router.get('/habits/oldhabits/entries/:id', async (req, res) => {
+//changed test again
+async function getOldHabit(req, res) {
     try {
         const {id} = req.params
         const entries = await Habit.getOldHabits(id);
@@ -69,9 +57,9 @@ router.get('/habits/oldhabits/entries/:id', async (req, res) => {
     } catch (err) {
         res.status(403).send({ err: "ERROR RETREIVING OLD HABITS" })
     }
-})
+}
 
-router.post('/:username/habits/entries', async (req, res) => {
+async function updateHabitCounter(req, res) {
     try {
         //check if valid jwt is for the requested user
         // if (res.locals.user !== req.params.username) throw err
@@ -80,10 +68,9 @@ router.post('/:username/habits/entries', async (req, res) => {
       } catch (err) {
         res.status(403).send({ err: err })
       }
-})
+}
 
-
-router.delete('/delete/:id', verifyToken, async (req, res) => {
+async function destroy(req, res){
     try {
         const deleteHabit = await Habit.deleteHabit(req.params.id);
         res.status(202).json(deleteHabit)
@@ -91,5 +78,15 @@ router.delete('/delete/:id', verifyToken, async (req, res) => {
     } catch (err) {
         res.status(500).send({ err })
     }
-})
-module.exports = router
+}
+
+module.exports = {
+        getHabits,
+        getName,
+        create,
+        update,
+        getUserHabits,
+        getOldHabit,
+        updateHabitCounter,
+        destroy
+    }

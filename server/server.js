@@ -6,10 +6,10 @@ const cors = require('cors');
 app.use(cors());
 app.use(express.json())
 
-const userController = require('./controllers/user.js')
-const habitController = require('./controllers/habit')
-app.use('/', userController)
-app.use('/habits', habitController)
+const userRoutes = require('./routes/users')
+const habitRoutes = require('./routes/habits')
+app.use('/', userRoutes)
+app.use('/habits', habitRoutes)
 
 
 app.all('*', (req, res) => {
