@@ -83,13 +83,4 @@ describe('habit controller', () => {
             expect(mockStatus).toHaveBeenCalledWith(201);
         })
     })
-
-    // describe(' ', ()=>{
-    //     test(' ', async ()=>{
-    //         jest.spyOn()
-    //             .mockResolvedValue( )
-    //         await habitController.
-    //         expect(mockStatus).toHaveBeenCalledWith();
-    //     })
-    // })
 })
