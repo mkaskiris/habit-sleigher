@@ -1,8 +1,6 @@
 const habitForm = document.querySelector(".task");
 
 
-
-
 function currentUser() {
     const username = localStorage.getItem('username')
     return username;
@@ -35,76 +33,66 @@ if (document.querySelector("body > .hidden_form")) {
         getIdData.forEach(async data => {
             const getHabitCount = await fetch(`http://localhost:3000/habits/habits/${data.habit_id}/${currentUser()}`)
             const habitCountData = await getHabitCount.json()
+            
+            
         })
     }
-
-    async function run() {
-        const getHabitCount = await fetch(`http://localhost:3000/habits/habits/1/${currentUser()}`)
-        const habitCountData = await getHabitCount.json()
-        return habitCountData
-    }
-
     async function habitlist() {
         try {
-                let dat = await run()
+            const getHabitCount = await fetch(`http://localhost:3000/habits/habits/0/${currentUser()}`)
+            const habitCountData = await getHabitCount.json()
 
-                dat.forEach(async data1 => {
-                    const {input1, div, habitFrequency} = createHabit(data1)
-                    
-                    input1.addEventListener('click', async (e) => {
-                        updateHabit(data1.habit_id)
-                        e.preventDefault()
-                                         
-                        const data2 = { 
-                            habit_id: data1.habit_id
-                        }
-
-                        try {
-                            const options = {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify(data2)
-                            }
+            habitCountData.forEach(async data1 => {
                 
-                            const r = await fetch(`http://localhost:3000/habits/${currentUser()}/habits/entries`, options)
-                            const data = await r.json()
-                            
-                            progessBarIncrease(habitFrequency, data)
+                const {input1, div, habitFrequency} = await createHabit(data1)
                 
-                            if (data.err) {
-                                throw Error(data.err)
-                            }
-                
-                            window.location.reload()
-                        } catch (err) {
-                            console.warn(err);
-                        }
-                    });
-
-                    const {oldDateP, oldDateP2, oldDateP3, sec1} = await oldData(data1)
-                    sec1.append(oldDateP)
-                    sec1.append(oldDateP2)
-                    sec1.append(oldDateP3)
-                    div.append(sec1)
-
-                    let form4 = document.querySelector(`.inner-habit[name='${data1.habit_id}'] > section > .buttons > .count`);
-                  
-                    let form2 = document.querySelector(`.inner-habit[name='${data1.habit_id}'] > section > .buttons > .deletion`);
-
-                    form2.addEventListener('submit',  (e) => {
-                        deleteHabit(e)
-                    })
-
-                    // form4.addEventListener('submit', (e) => {
-                    //     alert("here")
-                    //     updateHabit(e)
-                    // })
-
-                    if (data1.currfreq === data1.frequency) {
-                        document.querySelectorAll(`.inner-habit[name='${data1.habit_id}'] > section > .buttons > .count > input`).forEach(habitCountData => {
-                            habitCountData.setAttribute("disabled", "true")
-                        })
+                input1.addEventListener('click', async (e) => {
+                    updateHabit(data1.habit_id)
+                    e.preventDefault()
+                                        
+                    const data2 = { 
+                        habit_id: data1.habit_id
                     }
+
+                    try {
+                        const options = {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data2)
+                        }
+            
+                        const r = await fetch(`http://localhost:3000/habits/${currentUser()}/habits/entries`, options)
+                        const data = await r.json()
+                        
+                        progessBarIncrease(habitFrequency, data)
+            
+                        if (data.err) {
+                            throw Error(data.err)
+                        }
+            
+                        window.location.reload()
+                    } catch (err) {
+                        console.warn(err);
+                    }
+                });
+
+                const {oldDateP, oldDateP2, oldDateP3, sec1} = await oldData(data1)
+                sec1.append(oldDateP)
+                sec1.append(oldDateP2)
+                sec1.append(oldDateP3)
+                div.append(sec1)
+                
+                let form2 = document.querySelector(`.inner-habit[name='${data1.habit_id}'] > section > .buttons > .deletion`);
+
+                form2.addEventListener('submit',  (e) => {
+                    deleteHabit(e)
+                })
+
+                if (data1.currfreq === data1.frequency) {
+                    document.querySelectorAll(`.inner-habit[name='${data1.habit_id}'] > section > .buttons > .count > input`).forEach(habitCountData => {
+                        habitCountData.setAttribute("disabled", "true")
+                    })
+                }
             
                 });
 
@@ -113,8 +101,26 @@ if (document.querySelector("body > .hidden_form")) {
         }
     }
 
-    function createHabit(data1) {
-        data1.maxstreak
+    // async function updateOldStreak(data1) {
+    //     history.pushState({}, "", "")
+    //     const options = {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify(data1)
+    //     }
+    //     // const options = {
+    //     //     headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
+    //     // }
+
+    //     const fetchOldStreaks = await fetch(`http://localhost:3000/habits/oldstreaks/${data1.habit_id}`, options);
+    //     const getData = await fetchOldStreaks.json();
+    //     return getData
+    // }
+
+    
+
+    async function createHabit(data1) {
+        
         const sec = document.querySelector("body > .habit-list");
         const div = document.createElement("div");
         const div2 = document.createElement("div")
@@ -132,7 +138,7 @@ if (document.querySelector("body > .hidden_form")) {
         let habitFrequency = document.createElement('progress')
         p2.textContent = `${data1.currfreq} / ${data1.frequency}`
         // p3.textContent = `Current Streak: ${data1.currstreak}, Max Streak: ${data1.maxstreak}`
-        p3.textContent = `Your best streak: ${data1.maxstreak}`
+        p3.textContent = `Your best streak: ${data1.currstreak}`
         habitFrequency.setAttribute('max', data1.frequency)
         habitFrequency.setAttribute('value', data1.currfreq)
         div4.setAttribute("class", "leftOver")
@@ -273,7 +279,6 @@ if (document.querySelector("body > .hidden_form")) {
     }
 
     async function updateHabit(e) {
-      
         try {
             const options = {
                 method: 'PUT',
@@ -295,28 +300,9 @@ if (document.querySelector("body > .hidden_form")) {
 
     }
 
-    async function getOldEntries(e) {
-        e.preventDefault();
-
-        try {
-            const old = await fetch(`/:username/habits/entries/:id`);
-            const data = await old.json();
-            if (data.err) {
-                throw Error(data.err)
-
-            }
-
-
-        } catch (err) {
-            console.warn(err)
-        }
-    }
-
-
 
     // makes sure each function is ran when dom is loaded
     window.addEventListener('DOMContentLoaded', async function () {
-        await run()
         await updateData()
         await habitlist()
         
@@ -326,11 +312,3 @@ if (document.querySelector("body > .hidden_form")) {
 
 
 }
-
-
-    
-
-    
-
-
-

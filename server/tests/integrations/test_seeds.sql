@@ -2,19 +2,21 @@ TRUNCATE user_table, habit, habit_counter  RESTART IDENTITY;
 
 INSERT INTO user_table(username, email, usr_password)
     VALUES
-        ('test', 'test@gmail.com', '$2a$10$bSQ6V2lYWaTS.KH3K81De.Yvaf2RoNcZcU3BcsZqsdVirBvs.EkzS'),
-        ('test2', 'test2@gmail.com', '$2a$10$A/5VanepDSivGz2NEfDdmuxDrJ.i7cHBznfus7sCFT41eOO5X1DQq');
-
+        ('test', 'test1@gmail.com', '$2a$10$bSQ6V2lYWaTS.KH3K81De.Yvaf2RoNcZcU3BcsZqsdVirBvs.EkzS'),
+        ('test2', 'test2@hotmail.com', ''),
+        ('test3', 'test3@test.com', '');
 
 INSERT INTO habit (habit, user_id, currTime, currFreq, frequency) 
     VALUES 
-        ('drink water', 1, current_timestamp - INTERVAL '2 day', 4, 4),
-        ('go running', 1, current_timestamp - INTERVAL '3 day', 4, 4),
-        ('have breakfast', 1, current_timestamp - INTERVAL '1 day', 1, 1),
-        ('have breakfast!', 2, current_timestamp - INTERVAL '1 day', 1, 1);
+        ('test1', 1, current_timestamp - INTERVAL '2 day', 4, 4),
+        ('test2', 1, current_timestamp - INTERVAL '3 day', 4, 4),
+        ('test3', 1, current_timestamp - INTERVAL '1 day', 1, 1),
 
-
-INSERT INTO habit_counter(habit_id, time_done)
+        ('test1', 2, current_timestamp - INTERVAL '2 day', 1, 5),
+        ('test2', 2, current_timestamp - INTERVAL '3 day', 0, 2),
+        ('test3', 2, current_timestamp - INTERVAL '1 day', 2, 4);
+        
+INSERT INTO habit_counter(habit_id, time_done, completedStreak)
     VALUES
         --completed task 1 4 times yesterday
         (1, current_timestamp - INTERVAL '1 day'),
