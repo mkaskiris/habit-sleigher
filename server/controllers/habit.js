@@ -6,25 +6,31 @@ const Habit = require('../model/Habit');
 const {verifyToken} = require('../middleware/auth')
 
 
-router.get('/', verifyToken, async (req, res) => {
+router.get('/', verifyToken, getHabits)
+
+async function getHabits (req, res){
     try {
         const allHabits = await Habit.all;
         res.status(200).json(allHabits)
     }  catch (err) {
         res.status(500).send({ err })
     }
-})
+}
 
-router.get('/:name', verifyToken, async (req, res) => {
+router.get('/:name', verifyToken, getName)
+
+async function getName (req, res){
     try {
         const habit = await Habit.getByName(req.params.name);
         res.status(200).json(habit)
     } catch (err) {
         res.status(500).send({ err })
     }
-})
+}
 
-router.post('/:username', async (req, res) => {
+router.post('/:username', updateHabit)
+
+async function updateHabit (req, res){
     try {
         const {username} = req.params
         const habit = await Habit.createHabit({...req.body, username})
@@ -32,14 +38,13 @@ router.post('/:username', async (req, res) => {
     } catch (err) {
         res.status(500).send({ err })
     }
-})
+}
 
 router.put('/update/:habit_id', async (req, res) => {
     try {
         const {habit_id} = req.params;
         const update = await Habit.appendFreq(habit_id);
         res.status(201).json(update)
-
     } catch (err) {
         res.status(500).send({ err })
     }
