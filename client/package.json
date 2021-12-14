@@ -1,0 +1,21 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "jest --silent --watchAll",
+    "coverage": "jest --coverage --silent --watchAll"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^27.4.4",
+    "jest-fetch-mock": "^3.0.3"
+  },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "jwt-decode": "^3.1.2"
+  }
+}

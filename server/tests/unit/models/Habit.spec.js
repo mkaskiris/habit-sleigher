@@ -98,9 +98,8 @@ describe('Habit', () =>{
         test('resolves with updated habit currfreq', async () =>{
             const testHabit = {                
                 habit_id: 1,
-                habit: 'test_habit',
-                user_id: 10,
-                currTime: 'current time',
+                habit: 'drink water',
+                user_id: 1,
                 currfreq: 4,
                 frequency: 4
             }
@@ -123,7 +122,7 @@ describe('Habit', () =>{
                 .mockResolvedValueOnce({rows: [{frequency: 4}]})
                 .mockResolvedValueOnce({})
                 .mockResolvedValueOnce({rows: [habits[0]]})
-            const result = await Habit.createHabitEntry(habits[0])
+            const result = await Habit.newHabitEntry(habits[0])
             expect(result).toHaveProperty('habit_id',1);
         })
     })

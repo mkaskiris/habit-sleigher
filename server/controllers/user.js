@@ -42,14 +42,9 @@ async function register (req, res){
     try {
         const salt = await bcrypt.genSalt();
         const hashed = await bcrypt.hash(req.body.password, salt)
-        const findUser = await pool.query(`SELECT * FROM user_table WHERE username = '${req.body.username}'`)
-        const findEmail = await pool.query(`SELECT * FROM user_table WHERE email = '${req.body.email}'`)
-        if (!findUser.rows.length && !findEmail.rows.length) {
-            await User.register({...req.body, password: hashed})
-            res.status(201).json({msg: 'User created'})
-        } else {
-            throw new Error('User already exists!')  
-        }
+        await User.register({...req.body, password: hashed})
+        res.status(201).json({msg: 'User created'})
+       
     
     } catch (err) {
         res.status(500).json({err: "Username or email already exists!"});
