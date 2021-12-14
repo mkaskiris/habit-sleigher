@@ -114,7 +114,7 @@ module.exports = class Habit {
 
     }
 
-    static appendFreq(habit_id) {
+    static updateStreak(habit_id) {
         return new Promise(async (resolve, reject) => {
             try {
               
@@ -144,39 +144,56 @@ module.exports = class Habit {
         })
     }
 
-    static getHabits(habit_id, user_id) {
+    static getHabits(habit_id, username) {
         return new Promise(async (resolve, reject) => {
             try {
+                const userId = await db.query("SELECT user_id FROM user_table WHERE username = $1", [username])
+                
+                const habits = await db.query("SELECT * FROM habit WHERE user_id = $1 AND habit_id = $2", [userId.rows[0].user_id, habit_id]);
+                
+                const prevFreq = await db.query("SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 1", [habit_id]);
                 const currFreq = await db.query("SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date", [habit_id]);
                 await db.query("UPDATE habit SET currfreq = $1 WHERE habit_id = $2", [currFreq.rows[0].count, habit_id])
     
                 const currStreak = await db.query("SELECT currstreak FROM habit WHERE habit_id = $1;", [habit_id]);
                 const maxStreak = await db.query("SELECT maxstreak FROM habit WHERE habit_id = $1;", [habit_id]);
 
-                const allLists = await db.query("SELECT DATE(time_done), COUNT(habit_id) FROM habit_counter WHERE habit_id = $1 AND DATE(time_done) != current_date GROUP BY CAST(time_done AS DATE);", [habit_id])
                 const maxFreq = await db.query("SELECT frequency FROM habit WHERE habit_id = $1", [habit_id])
-                const newArray= allLists.rows.map(element => element.count);
+
+                if (prevFreq.rows[0].count != maxFreq.rows[0].frequency) {
+                    console.log("IN HERE")
+                //     await db.query("UPDATE habit SET currstreak = 0 WHERE habit_id = $1;", [habit_id])
+                } 
+                // ) else {
+                //     Habit.appendStreak(habit_id)
+                // }
+                // const allLists = await db.query("SELECT DATE(time_done), COUNT(habit_id) FROM habit_counter WHERE habit_id = $1 AND DATE(time_done) != current_date GROUP BY CAST(time_done AS DATE);", [habit_id])
+                // const maxFreq = await db.query("SELECT frequency FROM habit WHERE habit_id = $1", [habit_id])
+                // const newArray= allLists.rows.map(element => element.count);
                 
-                let count = 0;
-                for (let i = 0; i < newArray.length; i++) {
-                    if (parseInt(newArray[i]) === parseInt(maxFreq.rows[0].frequency)) {
-                        count += 1;
-                        await db.query(`UPDATE habit SET currstreak = ${count} WHERE habit_id = $1`, [habit_id])
-                    }
-                }
+                // let count = 0;
+                // for (let i = 0; i < newArray.length; i++) {
+                //     if (parseInt(newArray[i]) === parseInt(maxFreq.rows[0].frequency)) {
+                //         count += 1;
+                //         await db.query(`UPDATE habit SET currstreak = ${count} WHERE habit_id = $1`, [habit_id])
+                //     }
+                // }
                 if (parseInt(currFreq.rows[0].count) === parseInt(maxFreq.rows[0].frequency)) {
                     await db.query("UPDATE habit SET currstreak = currstreak + 1 WHERE habit_id = $1", [habit_id]);
                 }
 
-                if (currStreak.rows[0].currstreak >= maxStreak.rows[0].maxstreak) {
-                    await db.query("UPDATE habit SET maxstreak = $1 WHERE habit_id = $2", [currStreak.rows[0].currstreak, habit_id]);
-                }
+                // if (currStreak.rows[0].currstreak >= maxStreak.rows[0].maxstreak) {
+                //     await db.query("UPDATE habit SET maxstreak = $1 WHERE habit_id = $2", [currStreak.rows[0].currstreak, habit_id]);
+                // }
 
-                const getUser = await db.query("SELECT user_id FROM user_table WHERE username = $1", [user_id])
+                const getUser = await db.query("SELECT user_id FROM user_table WHERE username = $1", [username])
+                
     
-                const data = await db.query("SELECT * FROM habit WHERE user_id = $1 ORDER BY habit_id DESC", [parseInt(getUser.rows[0].user_id)])
+                const data = await db.query("SELECT * FROM habit WHERE user_id = $1", [parseInt(getUser.rows[0].user_id)])
+                
                 
                 resolve(data)
+                
                 
                 
             } catch (error) {
@@ -184,6 +201,25 @@ module.exports = class Habit {
             }
         })
     }
+
+    // static appendStreak(habit_id) {
+    //     console.log(habit_id)
+    //     return new Promise(async (resolve, reject) => {
+    //         try {
+    //             const prevFreq = await db.query("SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 1", [habit_id]);
+    //             const maxFreq = await db.query("SELECT frequency FROM habit WHERE habit_id = $1", [habit_id])
+    //             const currStreak = await db.query("SELECT currstreak FROM habit WHERE habit_id = $1;", [habit_id]);
+    //             console.log(prevFreq.rows[0].count == maxFreq.rows[0].frequency)
+    //             if (prevFreq.rows[0].count == maxFreq.rows[0].frequency) {
+    //                 await db.query("UPDATE habit SET currstreak = $1 WHERE habit_id = $2;", [parseInt(currStreak.rows[0].currstreak) + 1, habit_id])
+    //             }
+    //             console.log("done")
+    //             resolve("Appended!")
+    //         } catch (error) {
+    //             reject("cannot append streak", error)
+    //         }
+    //     })
+    // }
 
     static newHabitEntry(data) {
         return new Promise(async (resolve, reject) => {

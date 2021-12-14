@@ -17,6 +17,15 @@ router.get('/', async(req, res) => {
     }
 })
 
+router.get('/getUser/:name', async (req, res) => {
+    try {
+        const users = await User.getUser
+        res.status(200).json(users)
+    } catch (err) {
+        res.status(500).send({ err })
+    }
+})
+
 router.get('/exists/:name', verifyToken, async (req, res) => {
     try {
         const findUser = await User.exists(req.params.name)

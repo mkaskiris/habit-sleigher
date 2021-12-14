@@ -24,6 +24,17 @@ router.get('/:name', verifyToken, async (req, res) => {
     }
 })
 
+// router.post('/streaks/:habit_id', async (req, res) => {
+//     try {
+//         const {habit_id} = req.params
+//         const incrementStreak = await Habit.appendStreak(habit_id);
+//         res.status(201).json(incrementStreak)
+
+//     } catch (err) {
+//         res.status(500).send({ err })
+//     }
+// })
+
 router.post('/:username', async (req, res) => {
     try {
         const {username} = req.params
@@ -37,7 +48,7 @@ router.post('/:username', async (req, res) => {
 router.put('/update/:habit_id', async (req, res) => {
     try {
         const {habit_id} = req.params;
-        const update = await Habit.appendFreq(habit_id);
+        const update = await Habit.updateStreak(habit_id);
         res.status(201).json(update)
 
     } catch (err) {
@@ -49,9 +60,10 @@ router.get('/habits/:habit_id/:username', async (req, res) => {
     try {
         const {habit_id, username} = req.params
         const getData = await Habit.getHabits(habit_id, username)
-        res.status(201).json(getData.rows)
+        res.status(200).json(getData.rows)
+        console.log(getData.rows)
     } catch (err) {
-        res.status(403).send({err: err})
+        res.status(403).send({err: "Error: cannot get the habit"})
     }
 })
 
