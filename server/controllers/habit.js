@@ -9,9 +9,9 @@ async function getHabits (req, res){
     }
 }
 
-async function getName (req, res){
+async function getByName (req, res){
     try {
-        const habit = await Habit.getByName(req.params.name);
+        const habit = await Habit.getByUsername(req.params.name);
         res.status(200).json(habit)
     } catch (err) {
         res.status(500).send({ err })
@@ -82,7 +82,7 @@ async function destroy(req, res){
 
 module.exports = {
         getHabits,
-        getName,
+        getByName,
         create,
         update,
         getUserHabits,

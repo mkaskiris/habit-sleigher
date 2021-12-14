@@ -24,10 +24,10 @@ module.exports = class Habit {
     }
     
     //gets habits by user
-    static getByName(name) {
+    static getByUsername(username) {
         return new Promise(async (resolve, reject) => {
             try {
-                const allHabits = await db.query("SELECT * FROM habit INNER JOIN user_table ON (habit.user_id = user_table.user_id) AND (user_table.username = $1) ORDER BY habit_id DESC;", [name]);
+                const allHabits = await db.query("SELECT * FROM habit INNER JOIN user_table ON (habit.user_id = user_table.user_id) AND (user_table.username = $1) ORDER BY habit_id DESC;", [username]);
                 let habits = allHabits.rows.map(r => new Habit(r))
                 resolve(habits)
             } catch (err) {
