@@ -69,7 +69,6 @@ async function login(req, res){
 
 module.exports = 
         {
-           router, 
            index,
            register,
            find,

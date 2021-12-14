@@ -145,6 +145,7 @@ module.exports = class Habit {
         })
     }
 
+    //still in progress
     static getHabits(habit_id, user_id) {
         return new Promise(async (resolve, reject) => {
             try {

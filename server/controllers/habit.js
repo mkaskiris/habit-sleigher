@@ -81,7 +81,6 @@ async function destroy(req, res){
 }
 
 module.exports = {
-        router,
         getHabits,
         getName,
         create,

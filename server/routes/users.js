@@ -10,3 +10,5 @@ router.get('/', userController.index)
 router.get('/exists/:name', verifyToken, userController.find)
 router.post('/register', userController.register)
 router.post('/login', userController.login)
+
+module.exports = router;
