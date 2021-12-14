@@ -43,7 +43,7 @@ async function updateHabit (req, res){
 router.put('/update/:habit_id', async (req, res) => {
     try {
         const {habit_id} = req.params;
-        const update = await Habit.appendFreq(habit_id);
+        const update = await Habit.updateStreak(habit_id);
         res.status(201).json(update)
     } catch (err) {
         res.status(500).send({ err: "error updating counter" })
