@@ -164,13 +164,13 @@ module.exports = class Habit {
                         }
                     }
 
-                    if (parseInt(getYesterdayStreak.rows[getYesterdayStreak.rows.length - 1].sum) == 1) {
+                    else if (parseInt(getYesterdayStreak.rows[getYesterdayStreak.rows.length - 1].sum) == 1) {
                         if (getTodaysStreak.rows.length < 1 || getTodaysStreak.rows[getTodaysStreak.rows.length - 1].sum == '0') {
                             await db.query("UPDATE habit SET currstreak = $1 WHERE habit_id = $2", [getYesterdayStreak.rows[getYesterdayStreak.rows.length - 1].sum, habit_id]);
                         }
                     }
 
-                    if (getTodaysStreak.rows.length) {
+                    else if (getTodaysStreak.rows.length) {
                         if (parseInt(getTodaysStreak.rows[getTodaysStreak.rows.length - 1].sum) == 1) {
                             await db.query("UPDATE habit SET currstreak = $1 WHERE habit_id = $2", [parseInt(getYesterdayStreak.rows[getYesterdayStreak.rows.length - 1].sum) + parseInt(getTodaysStreak.rows[1].sum), habit_id]);
                         }
