@@ -21,10 +21,10 @@ module.exports = class User {
         })
     }
 
-    static exists(name) {
+    static exists(username) {
         return new Promise(async (resolve, reject) => {
             try {
-                const user = await db.query("SELECT * FROM user_table WHERE username = $1", [name])
+                const user = await db.query("SELECT * FROM user_table WHERE username = $1", [username])
                 resolve(user)
             } catch (err) {
                 reject(err, ": Cannot find if user exists or not")
