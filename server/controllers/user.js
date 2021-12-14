@@ -1,14 +1,6 @@
-require('dotenv').config();
-
-const express = require('express');
-const router = express.Router();
-const pool = require('../db/db.js');
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken");
 const User = require('../model/User');
-const {verifyToken} = require('../middleware/auth')
-
-router.get('/', index)
 
 async function index(req, res) {
     try {
@@ -18,8 +10,6 @@ async function index(req, res) {
         res.status(500).send({ err })
     }
 }
-
-router.get('/exists/:name', verifyToken, find)
 
 async function find (req, res) {
     try {
@@ -35,8 +25,6 @@ async function find (req, res) {
     }
 }
 
-router.post('/register', register)
-
 async function register (req, res){
 
     try {
@@ -50,8 +38,6 @@ async function register (req, res){
         res.status(500).json({err: "Username or email already exists!"});
     }
 }
-
-router.post('/login', login)
 
 async function login(req, res){
 
