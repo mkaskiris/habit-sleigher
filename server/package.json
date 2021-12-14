@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "unitTests": "jest --testPathPattern=/unit/ --watchAll --verbose",
-    "test": "jest --silent --watchAll",
+    "test": "jest --setupFiles ./tests/integrations/config.js --detectOpenHandles --runInBand --watchAll --verbose",
     "coverage": "jest --coverage --silent --watchAll",
     "node": "node index.js",
     "seedDev": "node db/seedDev.js",
