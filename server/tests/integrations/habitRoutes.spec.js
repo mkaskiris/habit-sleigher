@@ -1,5 +1,12 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
+jest.mock('../../middleware/auth', ()=>{
+    return jest.fn((req,res)=>{
+        res.end()
+    })
+});
+const auth = require('../../middleware/auth');
 describe('habit endpoints', ()=>{
     let api;
     beforeEach(async () => {
@@ -16,8 +23,14 @@ describe('habit endpoints', ()=>{
     })
 
     it('return a list of all habits in db', async () =>{
-        const res = await request(api).get('/habits/')
+        // jest.spyOn(auth, 'verifyToken')
+        //     .mockImplementation(()=>true)
+        // jest.spyOn(auth, 'verifyToken')
+        //     .mockImplementation((req,res,next)=> (next()))
+        const res = await request(api).get('/habits/').set({authrorization:'hello there'})
         expect(res.statusCode).toEqual(200)
         expect(res.body.length).toEqual(3);
     })
+
+
 })

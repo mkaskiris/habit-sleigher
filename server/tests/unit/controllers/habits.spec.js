@@ -23,7 +23,7 @@ describe('habit controller', () => {
 
     describe('getName', ()=>{
         test('returns with code 200 on getting habits by name', async ()=>{
-            jest.spyOn(Habit, 'getByUsername')
+            jest.spyOn(Habit, 'getByName')
                 .mockResolvedValue([{},{},{}])
             const mockReq = {params:{name: 'antonio'}}
             await habitController.getByName(mockReq,mockRes)

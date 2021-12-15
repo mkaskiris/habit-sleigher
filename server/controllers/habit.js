@@ -11,7 +11,7 @@ async function getHabits (req, res){
 
 async function getByName (req, res){
     try {
-        const habit = await Habit.getByUsername(req.params.name);
+        const habit = await Habit.getByName(req.params.name);
         res.status(200).json(habit)
     } catch (err) {
         res.status(500).send({ err })
