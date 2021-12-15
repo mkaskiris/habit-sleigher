@@ -164,10 +164,6 @@ module.exports = class Habit {
                     let streak = 0;
                     for (let count of habits.rows) {
 
-                        if (habitId.habit_id == 2) {
-                            console.log(habitId.habit_id, count)
-
-                        }
                         if (count.count == freq.rows[0].frequency) {
                             streak++;
                             await db.query(`UPDATE habit SET currstreak = $1 WHERE habit_id = $2;`,[streak, habitId.habit_id]);
@@ -216,7 +212,6 @@ module.exports = class Habit {
             }
             
             else if(parseInt(numOfEntries.rows[0].count) == parseInt(maxFreq.rows[0].frequency)){
-                console.log("in here", data.habit_id)
                 await db.query(`UPDATE habit SET currstreak = currstreak + 1 WHERE habit_id = $1;`,[data.habit_id]);
                 //disable button
             }
