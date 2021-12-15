@@ -7,7 +7,7 @@ const habitController = require('../controllers/habit')
 
 
 router.get('/', verifyToken, habitController.getHabits)
-router.get('/:name', verifyToken, habitController.getName)
+router.get('/:name', verifyToken, habitController.getByName)
 router.post('/:username', habitController.create)
 router.put('/update/:habit_id', habitController.update)
 router.get('/habits/:habit_id/:username', habitController.getUserHabits)

@@ -24,7 +24,7 @@ module.exports = class Habit {
         })
     }
     
-    //gets habits by user
+    //gets habits by username
     static getByName(name) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -37,26 +37,7 @@ module.exports = class Habit {
         })
     }
 
-    // static getOldHabits(id) {
-    //     return new Promise (async (resolve, reject) => { 
-    //         try {
-    //             const arr = []
-               
-    //             const dayBefore = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 1;`, [id]);
-    //             const dayBefore2 = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 2;`, [id]);
-    //             const dayBefore3 = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 3;`, [id]);
-                
-    //             arr.push(parseInt(dayBefore.rows[0].count))
-    //             arr.push(parseInt(dayBefore2.rows[0].count))
-    //             arr.push(parseInt(dayBefore3.rows[0].count))
-    //             resolve(arr)
-
-    //         } catch(err) {
-    //             reject("Error getting old habits: ", err)
-    //         }
-    //     })
-    // }
-
+    //gets habit history
     static getOldHabits(id) {
         return new Promise (async (resolve, reject) => { 
             try {
@@ -94,11 +75,12 @@ module.exports = class Habit {
                 resolve(arr)
 
             } catch(err) {
-                reject("Error getting old habits: ", err)
+                reject(err)
             }
         })
     }
 
+    //creates new habit
     static createHabit({habit, frequency, username}) {
         return new Promise (async (resolve, reject) => {
             try {

@@ -48,6 +48,8 @@ describe('Habit', () =>{
     describe('register', ()=>{
         test('resolves all users', async () =>{
             jest.spyOn(db, 'query')
+                .mockResolvedValueOnce({rows:{}})
+                .mockResolvedValueOnce({rows:{}})
                 .mockResolvedValueOnce({rows: [testUser2]})
             const result = await User.register(testUser2.username, testUser2.email, testUser2.usr_password)
             expect(result).toHaveProperty('user_id', '3');
@@ -58,7 +60,7 @@ describe('Habit', () =>{
         test('resolves all users', async () =>{
             jest.spyOn(db, 'query')
                 .mockResolvedValueOnce({rows: [testUser]})
-            const result = await User.register(testUser.username, testUser.email, testUser.usr_password)
+            const result = await User.findByEmail(testUser.username, testUser.email, testUser.usr_password)
             expect(result).toHaveProperty('user_id', 'testing');
         })
     })
