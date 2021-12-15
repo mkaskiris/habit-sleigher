@@ -8,6 +8,7 @@ async function createHabit(data1) {
     const h2 = document.createElement("h2");
     const p2 = document.createElement("p");
     const p3 = document.createElement("p");
+    const p4 = document.createElement("p");
     const form = document.createElement("form")
     const input = document.createElement("input");
     const form1 = document.createElement("form");
@@ -19,13 +20,16 @@ async function createHabit(data1) {
     let habitFrequency = document.createElement('progress')
     p2.textContent = `${data1.currfreq} / ${data1.frequency}`
     // p3.textContent = `Current Streak: ${data1.currstreak}, Max Streak: ${data1.maxstreak}`
-    p3.textContent = `Your best streak: ${data1.currstreak}`
+    
+    p3.textContent = `Current: ${data1.currstreak} ${data1.currstreak == 1 ? 'streak' : 'streaks'}`
+    p4.textContent = `Max Streaks: ${data1.maxstreak} ${data1.maxstreak == 1 ? 'streak' : 'streaks'}`
     habitFrequency.setAttribute('max', data1.frequency)
     habitFrequency.setAttribute('value', data1.currfreq)
     div4.setAttribute("class", "leftOver")
     div4.append(habitFrequency)
     div4.append(p2)
     div4.append(p3)
+    div4.append(p4)
 
     div.setAttribute("class", "inner-habit")
     div.setAttribute("name", data1.habit_id)

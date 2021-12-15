@@ -47,9 +47,9 @@ if (document.querySelector("body > .hidden_form")) {
         try {
             const getHabitCount = await fetch(`http://localhost:3000/habits/habits/0/${currentUser()}`)
             const habitCountData = await getHabitCount.json()
+         
 
             habitCountData.forEach(async data1 => {
-
                 const { input1, input2, div, habitFrequency } = await createHabit(data1)
 
                 input1.addEventListener('click', async (e) => {

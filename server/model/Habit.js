@@ -82,7 +82,7 @@ module.exports = class Habit {
                     arr.push(parseInt(dayBefore2.rows[0].count))
                  
                     resolve(arr)
-                } else if (difference == 3) {
+                } else if (difference >= 3) {
                     arr.push(parseInt(dayBefore.rows[0].count))
                     arr.push(parseInt(dayBefore2.rows[0].count))
                     arr.push(parseInt(dayBefore3.rows[0].count))
@@ -123,7 +123,7 @@ module.exports = class Habit {
                 const currFreq = await db.query("SELECT currfreq FROM habit WHERE habit_id = $1", [habit_id])
                
                 if (parseInt(currFreq.rows[0].currfreq) + 1 === parseInt(maxFreq.rows[0].frequency)) {
-                    await db.query("UPDATE habit SET currstreak = currstreak + 1 WHERE habit_id = $1", [habit_id]);
+                    await db.query("UPDATE habit SET currstreak = currstreak + 1 WHERE habit_id = $1;", [habit_id]);
                 }
                 
                 resolve(habit_id)
@@ -150,32 +150,48 @@ module.exports = class Habit {
         return new Promise(async (resolve, reject) => {
             try {
                 const user_id = await db.query("SELECT user_id FROM user_table WHERE username = $1", [username])
-                const userHabitId = await db.query(`SELECT habit_id FROM habit WHERE user_id = $1;`, [user_id.rows[0].user_id]);
-                
+                const userHabitId = await db.query(`SELECT habit_id FROM habit WHERE user_id = $1 ORDER BY habit_id DESC;`, [user_id.rows[0].user_id]);
+               
                 //userHabitId.rows[0].habit_id to access each id
                 for(let habitId of userHabitId.rows){
                     const completion = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date;`,[habitId.habit_id]);
                    
                     //completion.rows[0].count to get the count
-                    const habits = await db.query("SELECT COUNT(time_done::DATE) FROM habit_counter WHERE habit_id = $1 GROUP BY time_done::DATE ORDER BY time_done::DATE DESC;", [habitId.habit_id])
+                    const habits = await db.query("SELECT time_done::DATE,COUNT(time_done::DATE) FROM habit_counter WHERE habit_id = $1 GROUP BY time_done::DATE ORDER BY time_done::DATE DESC;", [habitId.habit_id])
                     const freq = await db.query("SELECT frequency FROM habit WHERE habit_id = $1;", [habitId.habit_id])
+                    const currStreak = await db.query("SELECT currstreak FROM habit WHERE habit_id = $1;", [habitId.habit_id])
+                    const maxStreak = await db.query("SELECT maxstreak FROM habit WHERE habit_id = $1;", [habitId.habit_id])
                     let streak = 0;
                     for (let count of habits.rows) {
-                        
+
+                        if (habitId.habit_id == 2) {
+                            console.log(habitId.habit_id, count)
+
+                        }
                         if (count.count == freq.rows[0].frequency) {
                             streak++;
                             await db.query(`UPDATE habit SET currstreak = $1 WHERE habit_id = $2;`,[streak, habitId.habit_id]);
+                            if (currStreak.rows[0].currstreak >= maxStreak.rows[0].maxstreak) {
+                                await db.query(`UPDATE habit SET maxstreak = $1 WHERE habit_id = $2;`,[streak, habitId.habit_id]);
+
+                            }
 
                         } else {
                             break;
                         }
                     }
+
+                    // for (let count of todayHabit.rows) {
+                    //     if (count.count == freq.rows[0].frequency) {
+                    //         await db.query(`UPDATE habit SET currstreak = currstreak + 1 WHERE habit_id = $1;`,[habitId.habit_id]);
+                    //     }
+                    // }
                     await db.query(`UPDATE habit SET currfreq = $1 WHERE habit_id = $2;`,[completion.rows[0].count, habitId.habit_id]);
 
                 }
-                const getHabits = await db.query(`SELECT * FROM habit WHERE user_id = $1 ORDER BY user_id DESC;`,[user_id.rows[0].user_id]);
-                resolve(getHabits)
-                
+                const getUser = await db.query("SELECT user_id FROM user_table WHERE username = $1;", [username])
+                const data = await db.query("SELECT * FROM habit WHERE user_id = $1 ORDER BY habit_id DESC;", [parseInt(getUser.rows[0].user_id)])
+                resolve(data)
                 
                 
             } catch (error) {
@@ -191,20 +207,17 @@ module.exports = class Habit {
             await db.query(`INSERT INTO habit_counter (habit_id, completedstreak) VALUES ($1, FALSE);`,[data.habit_id]);
             const numOfEntries = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE time_done::DATE = current_date AND habit_id= $1;`,[data.habit_id]);
             //check if its the first entry of the day
-            console.log(numOfEntries.rows[0].count == 1)
             if(numOfEntries.rows[0].count == 1){
                 //check previous day for streak
-                console.log("here")
                 const prevDay = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE time_done::DATE = current_date - 1 AND habit_id= $1;`,[data.habit_id]);
                 if(prevDay.rows[0].count != maxFreq.rows[0].frequency){ //habit completed on the previous day
-                    console.log("in this one")
                     await db.query(`UPDATE habit SET currstreak = 0 WHERE habit_id = $1;`,[data.habit_id]);
                 } 
             }
             
             else if(parseInt(numOfEntries.rows[0].count) == parseInt(maxFreq.rows[0].frequency)){
-                console.log("in new habit entry")
-                await db.query(`UPDATE habit SET currstreak = currstreak WHERE habit_id = $1;`,[data.habit_id]);
+                console.log("in here", data.habit_id)
+                await db.query(`UPDATE habit SET currstreak = currstreak + 1 WHERE habit_id = $1;`,[data.habit_id]);
                 //disable button
             }
             resolve('completion inserted to table')

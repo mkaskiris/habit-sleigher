@@ -207,6 +207,9 @@ form > input:last-child {
     margin-top: 25px;
     padding-bottom: -10px;
     color: #ffffff;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
  }
  
   .nav-link {
