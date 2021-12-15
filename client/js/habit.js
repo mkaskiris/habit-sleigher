@@ -1,5 +1,5 @@
-const { newHabit, deleteHabit, updateHabit } = require('./habitUpdateDelete')
-const {createHabit} = require('./creation')
+const { newHabit, deleteHabit, decrementHabit, updateHabit } = require('./habitUpdateDelete')
+const { createHabit } = require('./creation')
 
 const habitForm = document.querySelector(".task")
 
@@ -7,6 +7,7 @@ function currentUser() {
     const username = localStorage.getItem('username')
     return username;
 }
+
 
 if (document.querySelector("body > .hidden_form")) {
 
@@ -42,15 +43,17 @@ if (document.querySelector("body > .hidden_form")) {
         })
     }
     async function habitlist() {
+
         try {
             const getHabitCount = await fetch(`http://localhost:3000/habits/habits/0/${currentUser()}`)
             const habitCountData = await getHabitCount.json()
 
             habitCountData.forEach(async data1 => {
 
-                const { input1, div, habitFrequency } = await createHabit(data1)
+                const { input1, input2, div, habitFrequency } = await createHabit(data1)
 
                 input1.addEventListener('click', async (e) => {
+                    // Incrementing the habit counter
                     updateHabit(data1.habit_id)
                     e.preventDefault()
 
@@ -80,6 +83,26 @@ if (document.querySelector("body > .hidden_form")) {
                     }
                 });
 
+                function progessBarDecrement(habitFrequency, data1) {
+
+                    // Just incase the disabling of buttons doesn't work, if the frequency is set to undefined, it will exit the function
+                    if (data1.frequency == undefined) {
+                        return;
+                    }
+                    habitFrequency.setAttribute('value', data1.frequency)
+                }
+
+                // Decrementing the habit counter
+                input2.addEventListener('click', async (e) => {
+                    try {
+                        decrementHabit(data1.habit_id)
+                        progessBarDecrement(habitFrequency, data1)
+                    } catch (err) {
+                        throw err
+                    }
+
+                })
+
                 const { oldDateP, oldDateP2, oldDateP3, sec1 } = await oldData(data1)
                 sec1.append(oldDateP)
                 sec1.append(oldDateP2)
@@ -104,9 +127,6 @@ if (document.querySelector("body > .hidden_form")) {
             console.warn(err)
         }
     }
-
-
-    
 
     function progessBarIncrease(habitFrequency, data) {
         // Just incase the disabling of buttons doesn't work, if the frequency is set to undefined, it will exit the function

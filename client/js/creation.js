@@ -11,7 +11,9 @@ async function createHabit(data1) {
     const form = document.createElement("form")
     const input = document.createElement("input");
     const form1 = document.createElement("form");
+    const form2 = document.createElement("form")
     const input1 = document.createElement("input");
+    const input2 = document.createElement("input");
     const section = document.createElement("section")
 
     let habitFrequency = document.createElement('progress')
@@ -38,9 +40,16 @@ async function createHabit(data1) {
     form1.setAttribute("name", data1.habit_id)
     form1.setAttribute("class", "count")
 
-    input1.setAttribute("value", "Count")
+    form2.setAttribute("name", data1.habit_id)
+    form2.setAttribute("class", "decrement")
+
+    input1.setAttribute("value", "+")
     input1.setAttribute("type", "submit")
     form1.append(input1)
+
+    input2.setAttribute("value", "-")
+    input2.setAttribute("type", "submit")
+    form2.append(input2)
 
     input.setAttribute("value", "DELETE")
     input.setAttribute("type", "submit")
@@ -48,6 +57,7 @@ async function createHabit(data1) {
 
     div3.setAttribute("class", "buttons")
     div3.append(form1)
+    div3.append(form2)
     div3.append(form)
 
     section.append(div2)
@@ -56,7 +66,9 @@ async function createHabit(data1) {
     div.append(section)
 
     sec.append(div)
-    return { input1, div }
+    return { input1, input2, div, habitFrequency }
 }
+
+
 
 module.exports = {createHabit}

@@ -80,6 +80,19 @@ async function destroy(req, res){
     }
 }
 
+async function decrement(req, res) {
+    try {
+        //check if valid jwt is for the requested user
+        // if (res.locals.user !== req.params.username) throw err
+        const {habit_id} = req.params
+        console.log("inside controller,", habit_id)
+        const decHabit = await Habit.decrement(habit_id);
+        res.status(204).json(decHabit)
+    } catch (err) {
+        res.status(403).send({ err: err })
+    }
+}
+
 module.exports = {
         getHabits,
         getName,
@@ -88,5 +101,6 @@ module.exports = {
         getUserHabits,
         getOldHabit,
         updateHabitCounter,
-        destroy
+        destroy,
+        decrement
     }

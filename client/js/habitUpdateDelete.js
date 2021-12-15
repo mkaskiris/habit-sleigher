@@ -67,11 +67,10 @@ async function updateHabit(e) {
             headers: new Headers({ 'Authorization': localStorage.getItem('token') })
         }
 
-        const r = await fetch(`http://localhost:3000/habits/update/${e}`, options)
-        const data = await r.json()
+        const updateHabit = await fetch(`http://localhost:3000/habits/update/${e}`, options)
+        const data = await updateHabit.json()
         if (data.err) {
             throw Error(data.err)
-
         }
 
         window.location.reload()
@@ -82,4 +81,23 @@ async function updateHabit(e) {
 
 }
 
-module.exports = {newHabit, deleteHabit, updateHabit, currentUser}
+async function decrementHabit(e) {
+    // alert("a")
+    try {
+        const options = {
+            method: 'DELETE',
+            headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
+        }
+        const decrementHabit = await fetch(`http://localhost:3000/habits/decrement/${e}`, options);
+        const data = await decrementHabit.json()
+        if (data.err) {
+            throw Error(data.err)
+        }
+    } catch (err) {
+        console.warn(err);
+    }
+
+  
+}
+
+module.exports = {newHabit, deleteHabit, updateHabit, decrementHabit, currentUser}

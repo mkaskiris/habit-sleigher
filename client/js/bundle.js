@@ -48,7 +48,9 @@ async function createHabit(data1) {
     const form = document.createElement("form")
     const input = document.createElement("input");
     const form1 = document.createElement("form");
+    const form2 = document.createElement("form")
     const input1 = document.createElement("input");
+    const input2 = document.createElement("input");
     const section = document.createElement("section")
 
     let habitFrequency = document.createElement('progress')
@@ -75,9 +77,16 @@ async function createHabit(data1) {
     form1.setAttribute("name", data1.habit_id)
     form1.setAttribute("class", "count")
 
-    input1.setAttribute("value", "Count")
+    form2.setAttribute("name", data1.habit_id)
+    form2.setAttribute("class", "decrement")
+
+    input1.setAttribute("value", "+")
     input1.setAttribute("type", "submit")
     form1.append(input1)
+
+    input2.setAttribute("value", "-")
+    input2.setAttribute("type", "submit")
+    form2.append(input2)
 
     input.setAttribute("value", "DELETE")
     input.setAttribute("type", "submit")
@@ -85,6 +94,7 @@ async function createHabit(data1) {
 
     div3.setAttribute("class", "buttons")
     div3.append(form1)
+    div3.append(form2)
     div3.append(form)
 
     section.append(div2)
@@ -93,13 +103,15 @@ async function createHabit(data1) {
     div.append(section)
 
     sec.append(div)
-    return { input1, div }
+    return { input1, input2, div, habitFrequency }
 }
+
+
 
 module.exports = {createHabit}
 },{}],3:[function(require,module,exports){
-const { newHabit, deleteHabit, updateHabit } = require('./habitUpdateDelete')
-const {createHabit} = require('./creation')
+const { newHabit, deleteHabit, decrementHabit, updateHabit } = require('./habitUpdateDelete')
+const { createHabit } = require('./creation')
 
 const habitForm = document.querySelector(".task")
 
@@ -107,6 +119,7 @@ function currentUser() {
     const username = localStorage.getItem('username')
     return username;
 }
+
 
 if (document.querySelector("body > .hidden_form")) {
 
@@ -142,15 +155,17 @@ if (document.querySelector("body > .hidden_form")) {
         })
     }
     async function habitlist() {
+
         try {
             const getHabitCount = await fetch(`http://localhost:3000/habits/habits/0/${currentUser()}`)
             const habitCountData = await getHabitCount.json()
 
             habitCountData.forEach(async data1 => {
 
-                const { input1, div, habitFrequency } = await createHabit(data1)
+                const { input1, input2, div, habitFrequency } = await createHabit(data1)
 
                 input1.addEventListener('click', async (e) => {
+                    // Incrementing the habit counter
                     updateHabit(data1.habit_id)
                     e.preventDefault()
 
@@ -180,6 +195,26 @@ if (document.querySelector("body > .hidden_form")) {
                     }
                 });
 
+                function progessBarDecrement(habitFrequency, data1) {
+
+                    // Just incase the disabling of buttons doesn't work, if the frequency is set to undefined, it will exit the function
+                    if (data1.frequency == undefined) {
+                        return;
+                    }
+                    habitFrequency.setAttribute('value', data1.frequency)
+                }
+
+                // Decrementing the habit counter
+                input2.addEventListener('click', async (e) => {
+                    try {
+                        decrementHabit(data1.habit_id)
+                        progessBarDecrement(habitFrequency, data1)
+                    } catch (err) {
+                        throw err
+                    }
+
+                })
+
                 const { oldDateP, oldDateP2, oldDateP3, sec1 } = await oldData(data1)
                 sec1.append(oldDateP)
                 sec1.append(oldDateP2)
@@ -204,9 +239,6 @@ if (document.querySelector("body > .hidden_form")) {
             console.warn(err)
         }
     }
-
-
-    
 
     function progessBarIncrease(habitFrequency, data) {
         // Just incase the disabling of buttons doesn't work, if the frequency is set to undefined, it will exit the function
@@ -329,11 +361,10 @@ async function updateHabit(e) {
             headers: new Headers({ 'Authorization': localStorage.getItem('token') })
         }
 
-        const r = await fetch(`http://localhost:3000/habits/update/${e}`, options)
-        const data = await r.json()
+        const updateHabit = await fetch(`http://localhost:3000/habits/update/${e}`, options)
+        const data = await updateHabit.json()
         if (data.err) {
             throw Error(data.err)
-
         }
 
         window.location.reload()
@@ -344,7 +375,26 @@ async function updateHabit(e) {
 
 }
 
-module.exports = {newHabit, deleteHabit, updateHabit, currentUser}
+async function decrementHabit(e) {
+    // alert("a")
+    try {
+        const options = {
+            method: 'DELETE',
+            headers: new Headers({ 'Authorization': localStorage.getItem('token') }),
+        }
+        const decrementHabit = await fetch(`http://localhost:3000/habits/decrement/${e}`, options);
+        const data = await decrementHabit.json()
+        if (data.err) {
+            throw Error(data.err)
+        }
+    } catch (err) {
+        console.warn(err);
+    }
+
+  
+}
+
+module.exports = {newHabit, deleteHabit, updateHabit, decrementHabit, currentUser}
 },{}],5:[function(require,module,exports){
 
 // Local storage is cleared here
