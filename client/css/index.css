@@ -212,6 +212,7 @@ form > input:last-child {
   .nav-link {
     color: #ffffff;
     text-decoration:none;
+    font-size: 15px;
  }
  
   .footer-bottom-content {
@@ -256,10 +257,12 @@ form > input:last-child {
   .social-links {
     padding: 0.5rem 1rem;
     margin-left: 10px;
+    left: 10px;
   }
  
   .authors {
     color: white;
     text-decoration:none;
-    margin-left: 300px;
+    margin-left: 600px;
+    font-size: 15px;
  }
