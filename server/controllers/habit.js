@@ -28,15 +28,6 @@ async function create (req, res){
     }
 }
 
-async function update (req, res){
-    try {
-        const {habit_id} = req.params;
-        const update = await Habit.updateStreak(habit_id);
-        res.status(201).json(update)
-    } catch (err) {
-        res.status(500).send({ err: "error updating counter" })
-    }
-}
 
 async function getUserHabits (req, res){
     try {
@@ -96,7 +87,6 @@ module.exports = {
         getHabits,
         getByName,
         create,
-        update,
         getUserHabits,
         getOldHabit,
         updateHabitCounter,

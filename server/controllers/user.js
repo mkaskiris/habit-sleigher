@@ -62,7 +62,7 @@ async function login(req, res){
         }
         
     } catch (err) {
-        res.status(401).json(err);
+        res.status(401).json({err: "Username or email does not exist!"});
     }
 }
 

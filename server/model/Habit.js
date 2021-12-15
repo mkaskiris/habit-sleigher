@@ -96,26 +96,6 @@ module.exports = class Habit {
         })
     }
 
-    //increments streak in habit table
-    static updateStreak(habit_id) {
-        return new Promise(async (resolve, reject) => {
-            try {
-              
-                const maxFreq = await db.query("SELECT frequency FROM habit WHERE habit_id = $1", [habit_id])
-                const currFreq = await db.query("SELECT currfreq FROM habit WHERE habit_id = $1", [habit_id])
-               
-                if (parseInt(currFreq.rows[0].currfreq) + 1 === parseInt(maxFreq.rows[0].frequency)) {
-                    await db.query("UPDATE habit SET currstreak = currstreak + 1 WHERE habit_id = $1;", [habit_id]);
-                }
-                
-                resolve(habit_id)
-
-            } catch (error) {
-                reject(`Could not append habit`);
-            }
-        })
-    }
-
     static deleteHabit(id) {
         return new Promise(async (resolve, reject) => {
             try {
@@ -158,12 +138,6 @@ module.exports = class Habit {
                             break;
                         }
                     }
-
-                    // for (let count of todayHabit.rows) {
-                    //     if (count.count == freq.rows[0].frequency) {
-                    //         await db.query(`UPDATE habit SET currstreak = currstreak + 1 WHERE habit_id = $1;`,[habitId.habit_id]);
-                    //     }
-                    // }
                     await db.query(`UPDATE habit SET currfreq = $1 WHERE habit_id = $2;`,[completion.rows[0].count, habitId.habit_id]);
 
                 }
@@ -182,7 +156,7 @@ module.exports = class Habit {
         return new Promise(async (resolve, reject) => {
           try {
             const maxFreq = await db.query(`SELECT frequency FROM habit WHERE habit_id=$1;`,[data.habit_id]);
-            await db.query(`INSERT INTO habit_counter (habit_id, completedstreak) VALUES ($1, FALSE);`,[data.habit_id]);
+            let test = await db.query(`INSERT INTO habit_counter (habit_id, completedstreak) VALUES ($1, FALSE);`,[data.habit_id]);
             const numOfEntries = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE time_done::DATE = current_date AND habit_id= $1;`,[data.habit_id]);
             //check if its the first entry of the day
             if(numOfEntries.rows[0].count == 1){
@@ -192,15 +166,19 @@ module.exports = class Habit {
                     await db.query(`UPDATE habit SET currstreak = 0 WHERE habit_id = $1;`,[data.habit_id]);
                 } 
             }
-            
+          
             else if(parseInt(numOfEntries.rows[0].count) == parseInt(maxFreq.rows[0].frequency)){
+             
                 await db.query(`UPDATE habit SET currstreak = currstreak + 1 WHERE habit_id = $1;`,[data.habit_id]);
                 //disable button
             }
+         
             resolve('completion inserted to table')
 
           } catch (error) {
-            reject(`Could not create a new habit entry! Try again`);
+            // reject(`Could not create a new habit entry! Try again`);
+            reject({err: error});
+
           }
         });
       }

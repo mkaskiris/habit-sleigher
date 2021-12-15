@@ -60,27 +60,6 @@ async function deleteHabit(e) {
    
 }
 
-async function updateHabit(e) {
-    try {
-        const options = {
-            method: 'PUT',
-            headers: new Headers({ 'Authorization': localStorage.getItem('token') })
-        }
-
-        const updateHabit = await fetch(`http://localhost:3000/habits/update/${e}`, options)
-        const data = await updateHabit.json()
-        if (data.err) {
-            throw Error(data.err)
-        }
-
-        window.location.reload()
-
-    } catch (err) {
-        console.warn(err)
-    }
-
-}
-
 async function decrementHabit(e) {
     // alert("a")
     try {
@@ -100,4 +79,4 @@ async function decrementHabit(e) {
   
 }
 
-module.exports = {newHabit, deleteHabit, updateHabit, decrementHabit, currentUser}
+module.exports = {newHabit, deleteHabit, decrementHabit, currentUser}

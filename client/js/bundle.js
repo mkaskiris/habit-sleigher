@@ -114,7 +114,7 @@ async function createHabit(data1) {
 
 module.exports = {createHabit}
 },{}],3:[function(require,module,exports){
-const { newHabit, deleteHabit, decrementHabit, updateHabit } = require('./habitUpdateDelete')
+const { newHabit, deleteHabit, decrementHabit } = require('./habitUpdateDelete')
 const { createHabit } = require('./creation')
 
 const habitForm = document.querySelector(".task")
@@ -169,8 +169,6 @@ if (document.querySelector("body > .hidden_form")) {
                 const { input1, input2, div, habitFrequency } = await createHabit(data1)
 
                 input1.addEventListener('click', async (e) => {
-                    // Incrementing the habit counter
-                    updateHabit(data1.habit_id)
                     e.preventDefault()
 
                     const data2 = {
@@ -298,7 +296,7 @@ if (document.querySelector("body > .hidden_form")) {
     })
 
 
-    module.exports = { createHabit, updateData, habitlist, progessBarIncrease, oldData, deleteHabit, updateHabit, currentUsr, currentUser, newHabit }
+    module.exports = { createHabit, updateData, habitlist, progessBarIncrease, oldData, deleteHabit, currentUsr, currentUser, newHabit }
 }
 
 },{"./creation":2,"./habitUpdateDelete":4}],4:[function(require,module,exports){
@@ -364,27 +362,6 @@ async function deleteHabit(e) {
    
 }
 
-async function updateHabit(e) {
-    try {
-        const options = {
-            method: 'PUT',
-            headers: new Headers({ 'Authorization': localStorage.getItem('token') })
-        }
-
-        const updateHabit = await fetch(`http://localhost:3000/habits/update/${e}`, options)
-        const data = await updateHabit.json()
-        if (data.err) {
-            throw Error(data.err)
-        }
-
-        window.location.reload()
-
-    } catch (err) {
-        console.warn(err)
-    }
-
-}
-
 async function decrementHabit(e) {
     // alert("a")
     try {
@@ -404,7 +381,7 @@ async function decrementHabit(e) {
   
 }
 
-module.exports = {newHabit, deleteHabit, updateHabit, decrementHabit, currentUser}
+module.exports = {newHabit, deleteHabit, decrementHabit, currentUser}
 },{}],5:[function(require,module,exports){
 
 // Local storage is cleared here
