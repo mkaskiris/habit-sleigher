@@ -85,7 +85,6 @@ async function decrement(req, res) {
         //check if valid jwt is for the requested user
         // if (res.locals.user !== req.params.username) throw err
         const {habit_id} = req.params
-        // console.log("inside controller,", habit_id)
         const decHabit = await Habit.decrement(habit_id);
         res.status(204).json(decHabit)
     } catch (err) {
