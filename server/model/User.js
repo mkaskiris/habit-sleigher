@@ -45,8 +45,6 @@ module.exports = class User {
                 } else {
                     reject('User already exists!')  
                 }
-               
-            
             } catch (err) {
                 reject(`Error creating user: ${err}`)
             }

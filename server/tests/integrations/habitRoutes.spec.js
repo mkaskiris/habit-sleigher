@@ -1,5 +1,13 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+jest.mock('../../middleware/auth', ()=>{
+    return jest.fn((req,res)=>{
+        res.end()
+    })
+});
 const auth = require('../../middleware/auth');
+
 describe('habit endpoints', ()=>{
     let api;
     beforeEach(async () => {
@@ -14,11 +22,19 @@ describe('habit endpoints', ()=>{
         console.log('Gracefully stopping test server')
         await api.close()
     })
+    
+    it('/:name', async () =>{
+        //needs middleware
+    })
 
-    it('return a list of all habits in db', async () =>{
-        const res = await request(api).get('/habits/')
-        expect(res.statusCode).toEqual(200)
-        expect(res.body.length).toEqual(3);
+    it('/:username', async ()=>{
+       const res = await request(api)
+            .post('/test2')
+            .send({
+                habit:'testing habit',
+                frequency: '2'
+            })
+        expect(res.statusCode).toEqual(201);
     })
 
     it("/", async () => {

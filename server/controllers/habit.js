@@ -9,7 +9,7 @@ async function getHabits (req, res){
     }
 }
 
-async function getName (req, res){
+async function getByName (req, res){
     try {
         const habit = await Habit.getByName(req.params.name);
         res.status(200).json(habit)
@@ -94,7 +94,7 @@ async function decrement(req, res) {
 
 module.exports = {
         getHabits,
-        getName,
+        getByName,
         create,
         update,
         getUserHabits,

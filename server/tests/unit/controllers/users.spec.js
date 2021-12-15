@@ -77,16 +77,12 @@ describe('users controller', () => {
         test('returns error if user alread exists', async ()=>{
             let testUser = {
                 username: 'test_usr',
-                email: 'test:test.com',
+                email: 'test@test.com',
                 usr_password: '123'
             }
 
-            jest.spyOn(db, 'query')
-                .mockResolvedValue({rows: [1]})
-                .mockResolvedValue({rows: [1]});
-
             jest.spyOn(User, 'register')
-                .mockResolvedValue(new User({testUser, user_id:1}))
+                .mockRejectedValueOnce(`Error creating user`)
             const mockReq = {body: {password: 'hello'}}
             await userController.register(mockReq, mockRes)
             expect(mockStatus).toHaveBeenCalledWith(500);
@@ -111,25 +107,26 @@ describe('users controller', () => {
             const mockReq = {body: {email:'test@test.com'}}
             await userController.login(mockReq,mockRes)
             expect(mockStatus).toHaveBeenCalledWith(401);
-            expect(mockJson).toHaveBeenCalledWith({err:'User does not exist or could not be authenticated'})
+            //expect(mockJson).toHaveBeenCalledWith("[Error: User could not be authenticated]")
         })
 
         test('returns 200 on login', async ()=>{
             let testUser = {
                 user_id: 'testing',
                 username: 'test_usr',
-                email: 'test:test.com',
+                email: 'test@test.com',
                 usr_password: '123'
             }
             jest.spyOn(User, 'findByEmail')
-                .mockResolvedValue(new User(testUser));
+                .mockResolvedValueOnce(new User(testUser));
             
             jest.spyOn(bcrypt, 'compare')
-                .mockResolvedValue(true);
+                .mockResolvedValueOnce(true);
             
             const mockReq = {body: {email:'test@test.com'}}
             await userController.login(mockReq,mockRes)
             expect(mockStatus).toHaveBeenCalledWith(200);
+            //expect(mockJson).toHaveBeenCalledWith(`error`);
         })
     })
 })
