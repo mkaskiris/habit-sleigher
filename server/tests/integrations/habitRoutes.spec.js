@@ -7,6 +7,7 @@ jest.mock('../../middleware/auth', ()=>{
     })
 });
 const auth = require('../../middleware/auth');
+
 describe('habit endpoints', ()=>{
     let api;
     beforeEach(async () => {
@@ -22,14 +23,28 @@ describe('habit endpoints', ()=>{
         await api.close()
     })
 
-    it('return a list of all habits in db', async () =>{
-        // jest.spyOn(auth, 'verifyToken')
-        //     .mockImplementation(()=>true)
+    //needs middle ware
+    it('/', async () =>{
+        
         // jest.spyOn(auth, 'verifyToken')
         //     .mockImplementation((req,res,next)=> (next()))
-        const res = await request(api).get('/habits/').set({authrorization:'hello there'})
-        expect(res.statusCode).toEqual(200)
-        expect(res.body.length).toEqual(3);
+        // const res = await request(api).get('/habits')//.auth('test@gmail.com', 'test')
+        // expect(res.statusCode).toEqual(200)
+        // expect(res.body.length).toEqual(3);
+    })
+    
+    it('/:name', async () =>{
+        //needs middleware
+    })
+
+    it('/:username', async ()=>{
+       const res = await request(api)
+            .post('/test2')
+            .send({
+                habit:'testing habit',
+                frequency: '2'
+            })
+        expect(res.statusCode).toEqual(201);
     })
 
 

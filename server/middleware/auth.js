@@ -27,7 +27,7 @@ function verifyToken(req,res,next){
             res.status(200)
             next();
         }catch(err){
-            res.status(403);
+            res.status(403).send(err);
         }
     }
 }

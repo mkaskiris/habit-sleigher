@@ -173,19 +173,19 @@ module.exports = class Habit {
             await db.query(`INSERT INTO habit_counter (habit_id, completedstreak) VALUES ($1, FALSE);`,[data.habit_id]);
             const numOfEntries = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE time_done::DATE = current_date AND habit_id= $1;`,[data.habit_id]);
             //check if its the first entry of the day
-            console.log(numOfEntries.rows[0].count == 1)
+            // console.log(numOfEntries.rows[0].count == 1)
             if(numOfEntries.rows[0].count == 1){
                 //check previous day for streak
-                console.log("here")
+                //console.log("here")
                 const prevDay = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE time_done::DATE = current_date - 1 AND habit_id= $1;`,[data.habit_id]);
                 if(prevDay.rows[0].count != maxFreq.rows[0].frequency){ //habit completed on the previous day
-                    console.log("in this one")
+                    //console.log("in this one")
                     await db.query(`UPDATE habit SET currstreak = 0 WHERE habit_id = $1;`,[data.habit_id]);
                 } 
             }
             
             else if(parseInt(numOfEntries.rows[0].count) == parseInt(maxFreq.rows[0].frequency)){
-                console.log("in new habit entry")
+                //console.log("in new habit entry")
                 await db.query(`UPDATE habit SET currstreak = currstreak WHERE habit_id = $1;`,[data.habit_id]);
                 //disable button
             }
