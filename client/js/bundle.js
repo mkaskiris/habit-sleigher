@@ -236,6 +236,12 @@ if (document.querySelector("body > .hidden_form")) {
                         habitCountData.setAttribute("disabled", "true")
                     })
                 }
+                
+                if (data1.currfreq == 0) {
+                    document.querySelectorAll(`.inner-habit[name='${data1.habit_id}'] > section > .buttons > .decrement > input`).forEach(habitCountData => {
+                        habitCountData.setAttribute("disabled", "true")
+                    })
+                }
 
             });
 

@@ -1,12 +1,11 @@
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-
-jest.mock('../../middleware/auth', ()=>{
-    return jest.fn((req,res)=>{
-        res.end()
-    })
-});
 const auth = require('../../middleware/auth');
+
+// jest.mock('../../middleware/auth', ()=>{
+//     return jest.fn((req,res)=>{
+//         res.end()
+//     })
+// });
 
 describe('habit endpoints', ()=>{
     let api;
@@ -28,8 +27,10 @@ describe('habit endpoints', ()=>{
     })
 
     it('/:username', async ()=>{
+        let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjM5NTgyNTc2fQ.Rocg5YEBb0LeddFAi6FEXkZCbCabwu4dVn0QC-yUPtw"
+
        const res = await request(api)
-            .post('/test2')
+            .post('/test2').set('Authorization','Bearer '+ authToken)
             .send({
                 habit:'testing habit',
                 frequency: '2'
@@ -40,9 +41,10 @@ describe('habit endpoints', ()=>{
     it("/", async () => {
         // jest.spyOn(auth, 'verifyToken').mockImplementation(() => Promise.resolve());
         jest.spyOn(auth, 'verifyToken').mockImplementation((req, res, next) => next());
-        let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjM5NTgwOTgzfQ.VJRbDqHvnQw3CMVg36n8JNbkHJlIw6heVYSNlkldylI"
+        let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjM5NTgyNTc2fQ.Rocg5YEBb0LeddFAi6FEXkZCbCabwu4dVn0QC-yUPtw"
         const res = await request(api).get('/habits').set('Authorization','Bearer '+ authToken)
         expect(res.statusCode).toEqual(200)
         expect(res.body.length).toEqual(6)
     })
+
 })
