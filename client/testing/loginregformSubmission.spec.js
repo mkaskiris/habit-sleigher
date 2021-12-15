@@ -38,5 +38,25 @@ describe('submit login form', () => {
             await app.register(evt)
            
         })
+
+        it ("Login user", async () => {
+            await app.loginUser({email: 'test@gmail.com', password: 'test'})
+        })
+    })
+
+    describe("show form", () => {
+        beforeEach(() => {
+            fetch.resetMocks();
+            evt =  { preventDefault: jest.fn(), target: {className: " w3-border-light-green", id: "register-link"} }
+        })
+
+        it("show form", () => {
+            const form = document.createElement("form");
+            form.setAttribute("id", "register")
+            form.style.display = "block"
+            app.showForm(evt)
+
+            expect(form.style.display).toBe("block")
+        })
     })
 })

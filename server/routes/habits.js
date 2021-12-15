@@ -14,5 +14,6 @@ router.get('/habits/:habit_id/:username', habitController.getUserHabits)
 router.get('/habits/oldhabits/entries/:id', habitController.getOldHabit )
 router.post('/:username/habits/entries', habitController.updateHabitCounter)
 router.delete('/delete/:id', verifyToken, habitController.destroy)
+router.delete('/decrement/:habit_id', habitController.decrement)
 
 module.exports = router;

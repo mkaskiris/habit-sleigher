@@ -3,6 +3,7 @@ const jwt_decode = require('jwt-decode')
 
 const serverAPI = 'http://localhost:3000'
 const loginForm = document.querySelector('#login')
+
 const registerForm = document.querySelector('#register')
 const tablinks = document.getElementsByClassName('tablink')
 
@@ -64,4 +65,4 @@ function showForm(e) {
     document.getElementById(form).style.display = 'block'
 }
 
-module.exports = { login, register }
+module.exports = { login, register, showForm, loginUser }
