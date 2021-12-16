@@ -101,7 +101,8 @@ if (document.querySelector("body > .hidden_form")) {
 
                 })
 
-                const { oldDateP, oldDateP2, oldDateP3, sec1 } = await oldData(data1)
+                const { hr, oldDateP, oldDateP2, oldDateP3, sec1 } = await oldData(data1)
+                sec1.append(hr)
                 sec1.append(oldDateP)
                 sec1.append(oldDateP2)
                 sec1.append(oldDateP3)
@@ -119,6 +120,7 @@ if (document.querySelector("body > .hidden_form")) {
                     })
                 }
                 
+                console.log(data1.currfreq)
                 if (data1.currfreq == 0) {
                     document.querySelectorAll(`.inner-habit[name='${data1.habit_id}'] > section > .buttons > .decrement > input`).forEach(habitCountData => {
                         habitCountData.setAttribute("disabled", "true")
@@ -142,10 +144,12 @@ if (document.querySelector("body > .hidden_form")) {
 
 
     async function oldData(data) {
+        const hr = document.createElement("hr")
         const oldDateP = document.createElement("p");
         const oldDateP2 = document.createElement("p");
         const oldDateP3 = document.createElement("p");
         const sec1 = document.createElement("section");
+
 
         const old = await fetch(`http://localhost:3000/habits/habits/oldhabits/entries/${data.habit_id}`);
         const oldInfo = await old.json()
@@ -169,7 +173,7 @@ if (document.querySelector("body > .hidden_form")) {
         if (oldInfo[2] !== undefined) {
             oldDateP3.textContent = `${d2.toLocaleDateString('en-GB')}: ${oldInfo[2]} / ${data.frequency}`
         }
-        return { oldDateP, oldDateP2, oldDateP3, sec1 }
+        return { hr, oldDateP, oldDateP2, oldDateP3, sec1 }
     }
 
     // makes sure each function is ran when dom is loaded

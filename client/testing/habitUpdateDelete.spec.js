@@ -32,4 +32,9 @@ describe('New habit, update and delete', () => {
         it("current user", async () => {
             app.currentUser();
         })
+
+        it("decrements counter", async () => {
+            const evt = {habit_id: 3}
+            await app.decrementHabit(evt);
+        })
 })

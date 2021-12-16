@@ -3,6 +3,7 @@ function currentUser() {
     return username;
 }
 
+
 async function newHabit(e) {
     e.preventDefault();
     const { habit, frequency } = e.target
@@ -61,7 +62,7 @@ async function deleteHabit(e) {
 }
 
 async function decrementHabit(e) {
-    // alert("a")
+    
     try {
         const options = {
             method: 'DELETE',
@@ -69,9 +70,12 @@ async function decrementHabit(e) {
         }
         const decrementHabit = await fetch(`http://localhost:3000/habits/decrement/${e}`, options);
         const data = await decrementHabit.json()
+        console.log("here")
         if (data.err) {
+            console.log("here")
             throw Error(data.err)
         }
+        window.location.reload()
     } catch (err) {
         console.warn(err);
     }
@@ -79,4 +83,4 @@ async function decrementHabit(e) {
   
 }
 
-module.exports = {newHabit, deleteHabit, decrementHabit, currentUser}
+module.exports = {newHabit, deleteHabit, decrementHabit, currentUser, decrementHabit}

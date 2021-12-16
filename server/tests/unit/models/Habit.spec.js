@@ -97,109 +97,76 @@ describe('Habit', () =>{
     // })
 
     // //getHabits
-    describe('getHabits', () =>{
-        test('resolves with updated habit currfreq no habitid', async () =>{
-            const testHabit = {                
-                habit_id: 1,
-                habit: 'drink water',
-                user_id: 1,
-                currfreq: 4,
-                frequency: 4
-            }
+    // describe('getHabits', () =>{
+    //     test('resolves with updated habit currfreq no habitid', async () =>{
+    //         const testHabit = {                
+    //             habit_id: 1,
+    //             habit: 'drink water',
+    //             user_id: 1,
+    //             currfreq: 4,
+    //             frequency: 4
+    //         }
 
-            jest.spyOn(db, 'query')
-                .mockResolvedValueOnce({rows: [3]}) //currfreq
-                .mockResolvedValueOnce({}) //update
-                .mockResolvedValueOnce({rows: [10]}) //yesterday
-                .mockResolvedValueOnce({rows: [5]}) //today
-                .mockResolvedValueOnce({rows: []}) //habitid
-                //.mockResolvedValueOnce({}) //if update
-                .mockResolvedValueOnce({rows: [{user_id: 1}]}) //getuser
-                .mockResolvedValueOnce({rows: [testHabit]}) //getHabitData
-            const result = await Habit.getHabits(1, 'test')
-            expect(result.rows[0]).toHaveProperty('currfreq',4);
-        })
+    //         jest.spyOn(db, 'query')
+    //             .mockResolvedValueOnce({rows: [3]}) //currfreq
+    //             .mockResolvedValueOnce({}) //update
+    //             .mockResolvedValueOnce({rows: [10]}) //yesterday
+    //             .mockResolvedValueOnce({rows: [5]}) //today
+    //             .mockResolvedValueOnce({rows: []}) //habitid
+    //             //.mockResolvedValueOnce({}) //if update
+    //             .mockResolvedValueOnce({rows: [{user_id: 1}]}) //getuser
+    //             .mockResolvedValueOnce({rows: [testHabit]}) //getHabitData
+    //         const result = await Habit.getHabits(1, 'test')
+    //         expect(result.rows[0]).toHaveProperty('currfreq',4);
+    //     })
 
-        test('resolves with updated habit currfreq no streak', async () =>{
-            const testHabit = {                
-                habit_id: 1,
-                habit: 'drink water',
-                user_id: 1,
-                currfreq: 4,
-                frequency: 4
-            }
+    //     test('resolves with updated habit currfreq no streak', async () =>{
+    //         const testHabit = {                
+    //             habit_id: 1,
+    //             habit: 'drink water',
+    //             user_id: 1,
+    //             currfreq: 4,
+    //             frequency: 4
+    //         }
 
-            jest.spyOn(db, 'query')
-                .mockResolvedValueOnce({rows: [3]}) //currfreq
-                .mockResolvedValueOnce({}) //update
-                .mockResolvedValueOnce({rows: []}) //yesterday
-                .mockResolvedValueOnce({rows: []}) //today
-                .mockResolvedValueOnce({rows: [1]}) //habitid
-                .mockResolvedValueOnce({}) //if update
-                .mockResolvedValueOnce({rows: [{user_id: 1}]}) //getuser
-                .mockResolvedValueOnce({rows: [testHabit]}) //getHabitData
-            const result = await Habit.getHabits(1, 'test')
-            expect(result.rows[0]).toHaveProperty('currfreq',4);
-        })
-        //TODO:
-        // test('resolves with updated habit currfreq yesterday streak', async () =>{
-        //     const testHabit = {                
-        //         habit_id: 1,
-        //         habit: 'drink water',
-        //         user_id: 1,
-        //         currfreq: 4,
-        //         frequency: 4
-        //     }
-
-        //     jest.spyOn(db, 'query')
-        //         .mockResolvedValueOnce({rows: [3]}) //currfreq
-        //         .mockResolvedValueOnce({}) //update
-        //         .mockResolvedValueOnce({rows: [2,1]}) //yesterday
-        //         .mockResolvedValueOnce({rows: []}) //today
-        //         .mockResolvedValueOnce({rows: [1]}) //habitid
-        //         .mockResolvedValueOnce({}) //if update
-        //         .mockResolvedValueOnce({rows: [{user_id: 1}]}) //getuser
-        //         .mockResolvedValueOnce({rows: [testHabit]}) //getHabitData
-        //     const result = await Habit.getHabits(1, 'test')
-        //     expect(result.rows[0]).toHaveProperty('currfreq',4);
-        // })
-
-        // test('resolves with updated habit currfreq todays streak', async () =>{
-        //     const testHabit = {                
-        //         habit_id: 1,
-        //         habit: 'drink water',
-        //         user_id: 1,
-        //         currfreq: 4,
-        //         frequency: 4
-        //     }
-
-        //     jest.spyOn(db, 'query')
-        //         .mockResolvedValueOnce({rows: [3]}) //currfreq
-        //         .mockResolvedValueOnce({}) //update
-        //         .mockResolvedValueOnce({rows: []}) //yesterday
-        //         .mockResolvedValueOnce({rows: [1,1]}) //today
-        //         .mockResolvedValueOnce({rows: [1]}) //habitid
-        //         .mockResolvedValueOnce({}) //if update
-        //         .mockResolvedValueOnce({rows: [{user_id: 1}]}) //getuser
-        //         .mockResolvedValueOnce({rows: [testHabit]}) //getHabitData
-        //     const result = await Habit.getHabits(1, 'test')
-        //     expect(result.rows[0]).toHaveProperty('currfreq',4);
-        // })
-    })
+    //         jest.spyOn(db, 'query')
+    //             .mockResolvedValueOnce({rows: [3]}) //currfreq
+    //             .mockResolvedValueOnce({}) //update
+    //             .mockResolvedValueOnce({rows: []}) //yesterday
+    //             .mockResolvedValueOnce({rows: []}) //today
+    //             .mockResolvedValueOnce({rows: [1]}) //habitid
+    //             .mockResolvedValueOnce({}) //if update
+    //             .mockResolvedValueOnce({rows: [{user_id: 1}]}) //getuser
+    //             .mockResolvedValueOnce({rows: [testHabit]}) //getHabitData
+    //         const result = await Habit.getHabits(1, 'test')
+    //         expect(result.rows[0]).toHaveProperty('currfreq',4);
+    //     })
+     
+    // })
 
     // //createHabitEntry --needs fixing
     describe('newHabitEntry', () =>{
         test('resolves with new habit entry with >1 less count', async () =>{
+            const data = { habit_id: 3, date: '12/15/2021, 4:41:58 PM' }
             jest.spyOn(db, 'query')
-                .mockResolvedValueOnce({rows: [{count: 2}]})
-                .mockResolvedValueOnce({rows: [{frequency: 4}]})
+                .mockResolvedValueOnce({rows: [{frequency: 5}]})
                 .mockResolvedValueOnce({})
-                .mockResolvedValueOnce({rows: [habits[0]]})
+                .mockResolvedValueOnce({rows: [{count: 2}]})
+                // .mockResolvedValueOnce({rows: [habits[0]]})
+            
             const result = await Habit.newHabitEntry(habits[0])
-            expect(result).toHaveProperty('habit_id',1);
+            expect(result).toBe("completion inserted to table")
+            // expect(result).toHaveProperty('habit_id',1);
         })
-        test('resolves with new habit entry with 1 less count', async()=>{
 
-        })
+        // test('error', async () => {
+        //     jest.spyOn(db, "query")
+        //         .mockResolvedValueOnce({rows: []})
+        //     const result = await Habit.newHabitEntry(habits[0])
+        //     expect(result).toEqual('error')
+        // })
+        // test('resolves with new habit entry with 1 less count', async()=>{
+
+        // })
     })
 })
