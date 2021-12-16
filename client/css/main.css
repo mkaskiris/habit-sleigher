@@ -30,18 +30,6 @@ input[type="submit"] {
 
 /* Footer Code */
 footer{
-<<<<<<< HEAD
-  background-color:#EEA9A9;
-  padding-top: 25px;
-  font-size: 20px;
-  margin-top: 50px;
-  padding-bottom: -10px;
-  color: #ffffff;
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-=======
    background-color:#EEA9A9;
    padding-top: 25px;
    margin-top: 25px;
@@ -51,7 +39,6 @@ footer{
    left: 0;
    bottom: 0;
    width: 100%;
->>>>>>> 041d96c7a755fe0e9b135aa9a9928023fe033200
 }
 
 .nav-link {

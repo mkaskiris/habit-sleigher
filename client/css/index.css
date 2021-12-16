@@ -213,19 +213,12 @@ footer{
     margin-top: 50px;
     padding-bottom: -10px;
     color: #ffffff;
-<<<<<<< HEAD
-    position: relative;
-}
-
-.nav-link {
-=======
     left: 0;
     bottom: 0;
     width: 100%;
  }
  
   .nav-link {
->>>>>>> 041d96c7a755fe0e9b135aa9a9928023fe033200
     color: #ffffff;
     text-decoration:none;
 
@@ -254,7 +247,6 @@ footer{
 
 @media screen and (max-wdith: 1312px) {
   .authors {
-<<<<<<< HEAD
     text-align: center;
     margin-left: 0px;
   }
@@ -313,10 +305,3 @@ footer{
         margin: 0 auto;
     }
 }
-=======
-    color: white;
-    text-decoration:none;
-    margin-left: 0px !important;
-    font-size: 15px;
- }
->>>>>>> 041d96c7a755fe0e9b135aa9a9928023fe033200
