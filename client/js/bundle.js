@@ -418,6 +418,7 @@ function currentUser() {
 
 
 (async () => {
+  
     let outcome = await userExists(currentUser());
     if (outcome == false) {
         localStorage.clear();
@@ -431,6 +432,9 @@ function logout(){
 }
 
 async function userExists(username) {
+    if (username == null) {
+        return false;
+    }
     const options = {
         headers: new Headers({'Authorization': localStorage.getItem('token')}),
     }
@@ -438,6 +442,7 @@ async function userExists(username) {
     const fetching = await fetch(`http://localhost:3000/exists/${username}`, options)
 
     const data = await fetching.json();
+
     if (data.err) {
         return false;
     }
