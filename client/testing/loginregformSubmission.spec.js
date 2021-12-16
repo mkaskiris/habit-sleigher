@@ -29,6 +29,10 @@ describe('submit login form', () => {
             evt =  { preventDefault: jest.fn()}
         })
 
+        it("logouts", () => {
+            app.logout();
+        })
+
         it("submit login", async () => {
             await app.login(evt)
            
@@ -40,7 +44,7 @@ describe('submit login form', () => {
         })
 
         it ("Login user", async () => {
-            await app.loginUser({email: 'test@gmail.com', password: 'test'})
+            app.loginUser({email: 'test@gmail.com', password: 'test'})
         })
     })
 
