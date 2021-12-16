@@ -225,8 +225,9 @@ if (document.querySelector("body > .hidden_form")) {
 
                 })
 
-                const { hr, oldDateP, oldDateP2, oldDateP3, sec1 } = await oldData(data1)
+                const { hr, text, oldDateP, oldDateP2, oldDateP3, sec1 } = await oldData(data1)
                 sec1.append(hr)
+                sec1.append(text)
                 sec1.append(oldDateP)
                 sec1.append(oldDateP2)
                 sec1.append(oldDateP3)
@@ -268,6 +269,8 @@ if (document.querySelector("body > .hidden_form")) {
 
     async function oldData(data) {
         const hr = document.createElement("hr")
+        const text = document.createElement("h3");
+        text.textContent = "Recent History:"
         const oldDateP = document.createElement("p");
         const oldDateP2 = document.createElement("p");
         const oldDateP3 = document.createElement("p");
@@ -296,7 +299,7 @@ if (document.querySelector("body > .hidden_form")) {
         if (oldInfo[2] !== undefined) {
             oldDateP3.textContent = `${d2.toLocaleDateString('en-GB')}: ${oldInfo[2]} / ${data.frequency}`
         }
-        return { hr, oldDateP, oldDateP2, oldDateP3, sec1 }
+        return { hr, text, oldDateP, oldDateP2, oldDateP3, sec1 }
     }
 
     // makes sure each function is ran when dom is loaded
