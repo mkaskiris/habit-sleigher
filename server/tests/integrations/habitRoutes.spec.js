@@ -27,10 +27,8 @@ describe('habit endpoints', ()=>{
     })
 
     it('/:username', async ()=>{
-        let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNjM5NTgyNTc2fQ.Rocg5YEBb0LeddFAi6FEXkZCbCabwu4dVn0QC-yUPtw"
-
        const res = await request(api)
-            .post('/test2').set('Authorization','Bearer '+ authToken)
+            .post('/habits/test2')
             .send({
                 habit:'testing habit',
                 frequency: '2'

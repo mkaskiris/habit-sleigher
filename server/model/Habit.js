@@ -156,7 +156,7 @@ module.exports = class Habit {
         return new Promise(async (resolve, reject) => {
           try {
             const maxFreq = await db.query(`SELECT frequency FROM habit WHERE habit_id=$1;`,[data.habit_id]);
-            let test = await db.query(`INSERT INTO habit_counter (habit_id, completedstreak) VALUES ($1, FALSE);`,[data.habit_id]);
+            await db.query(`INSERT INTO habit_counter (habit_id, completedstreak) VALUES ($1, FALSE);`,[data.habit_id]);
             const numOfEntries = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE time_done::DATE = current_date AND habit_id= $1;`,[data.habit_id]);
             //check if its the first entry of the day
             if(numOfEntries.rows[0].count == 1){
@@ -177,7 +177,7 @@ module.exports = class Habit {
 
           } catch (error) {
             // reject(`Could not create a new habit entry! Try again`);
-            reject({err: error});
+            reject('error');
 
           }
         });

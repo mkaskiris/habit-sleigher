@@ -5,6 +5,7 @@ body {
     font-family: 'Ubuntu', sans-serif;
     text-align: center;
     margin: 0;
+    background-color: #f5f5f5;
 }
 
 .hidden, .hidden_form {
@@ -34,25 +35,30 @@ nav > div p a {
 
 section {
     width: 860px;
-    height: auto;
     margin: 50px auto;
-    border: 1px solid rgb(179, 179, 166);
     border-radius: 8px;
     padding: 10px;
     
 }
 
 .habit-list {
-    border: 1px solid white;
-    width: 80%;
+    width: min-content;
 }
 
 .inner-habit {
-    border: 1px solid #DBF2CD;
-    background-color: #DBF2CD;
+    padding: 10px;
+    border: 1px solid #c0b2b2;
+    box-shadow: 0 4px 4px #cab2b2;
     border-radius: 8px;
-    margin: 10px auto;
+    margin: 25px auto;
+    height: min-content
     
+}
+
+hr {
+    margin: -50px 0 30px 0;
+
+    border: 1px solid #cab2b2;
 }
 
 .inner-habit > section:nth-of-type(1) {
@@ -80,6 +86,14 @@ section {
     flex-direction: row;
     justify-content: space-around;
     padding: 10px;
+}
+
+.inner-habit > section > .buttons > .deletion > input {
+    background-color: #ff5959;
+}
+
+.inner-habit > section > .buttons > .deletion > input:hover {
+    background-color: #e65050;
 }
 
 .inner-habit > section >  div > h2 {
@@ -133,11 +147,15 @@ form > input {
 
 form > input:last-child {
     width: auto;
-    background-color: #37d368;
+    background-color: #7bec86;
 	text-align: center;
 	padding: 10px 20px;
 	border: none;
 	border-radius: 5px;
+}
+
+form > input:last-child:hover {
+    background-color: #69c772;
 }
 
 .task > div > input {
@@ -187,24 +205,12 @@ form > input:last-child {
     margin-left: 10px;
 }
 
-@media screen and (max-width: 1200px) {
-    section {
-        width: 90%;
-    }
-}
-
-@media screen and (max-width: 1000px) {
-
-    .inner-habit {
-        width: 100%;
-    }
-}
-
- /* Footer Code */
- footer{
+/* Footer Code */
+footer{
     background-color:#EEA9A9;
     padding-top: 25px;
-    margin-top: 25px;
+    font-size: 20px;
+    margin-top: 50px;
     padding-bottom: -10px;
     color: #ffffff;
     left: 0;
@@ -215,57 +221,87 @@ form > input:last-child {
   .nav-link {
     color: #ffffff;
     text-decoration:none;
-    font-size: 15px;
- }
- 
-  .footer-bottom-content {
+
+}
+
+.footer-bottom-content {
     padding-top: 31px;
     padding-bottom: 31px;
     border-top: 1px solid rgba(240, 240, 240, 0.07);
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 1rem;
-  }
- 
- .mb-0 {
-   margin-bottom: 0 !important;
- }
- 
- .fa {
-    padding: 20px;
-    font-size: 30px;
-    width: 26px;
-    text-align: center;
-    text-decoration: none;
-    margin: 5px 2px;
-    border-radius: 50%;
-  }
-  
-  .fa:hover {
-      opacity: 0.7;
-  }
-  
-  .fa-facebook {
-    /*background: #3B5998;*/
-    background: white;
-    color: #EEA9A9;
-  }
-  
-  .fa-twitter {
-    /*background: #55ACEE;*/
-    background: white;
-    color: #EEA9A9;
-  }
- 
-  .social-links {
+}
+
+.mb-0 {
+    margin-bottom: 0 !important;
+}
+
+.social-links {
     padding: 0.5rem 1rem;
     margin-left: -756px !important;
     left: 10px;
-  }
+}
  
+
+
+@media screen and (max-wdith: 1312px) {
   .authors {
-    color: white;
-    text-decoration:none;
-    margin-left: 0px !important;
-    font-size: 15px;
+    text-align: center;
+    margin-left: 0px;
+  }
+}
+ 
+ @media only screen and (max-width: 1200px) {
+    section {
+        width: 90%;
+    }
+
+    .habit-list {
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    .decrement, .count, .deletion {
+        margin: 10px;
+    }
  }
+ @media only screen and (max-width: 1000px) {
+ 
+
+     .inner-habit {
+        width: 100%;
+    }
+     .inner-habit > section:nth-of-type(1) {
+        display: flex;
+        flex-direction: column;
+     }
+
+     .inner-habit > section > .name {
+        width: auto;
+     }
+
+     .inner-habit > section > .name > h2{
+        text-align:center;
+        font-size: 15px;
+     }
+
+     .inner-habit > section > .buttons {
+        margin-left: 20px;
+     }
+
+}
+
+@media only screen and (max-width: 620px) {
+    .task-section {
+        height: auto;
+    }
+    .task-section > .task {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .task-section > .task > input[type='submit'] {
+        margin: 0 auto;
+    }
+}

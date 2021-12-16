@@ -21,8 +21,8 @@ async function createHabit(data1) {
     p2.textContent = `${data1.currfreq} / ${data1.frequency}`
     // p3.textContent = `Current Streak: ${data1.currstreak}, Max Streak: ${data1.maxstreak}`
     
-    p3.textContent = `Current: ${data1.currstreak} ${data1.currstreak == 1 ? 'streak' : 'streaks'}`
-    p4.textContent = `Max Streaks: ${data1.maxstreak} ${data1.maxstreak == 1 ? 'streak' : 'streaks'}`
+    p3.textContent = `Current Streak: ${data1.currstreak} ${data1.currstreak == 1 ? 'day' : 'days'}`
+    p4.textContent = `Max Streak: ${data1.maxstreak} ${data1.maxstreak == 1 ? 'day' : 'days'}`
     habitFrequency.setAttribute('max', data1.frequency)
     habitFrequency.setAttribute('value', data1.currfreq)
     div4.setAttribute("class", "leftOver")
@@ -46,14 +46,15 @@ async function createHabit(data1) {
 
     form2.setAttribute("name", data1.habit_id)
     form2.setAttribute("class", "decrement")
-
-    input1.setAttribute("value", "+")
-    input1.setAttribute("type", "submit")
-    form1.append(input1)
+    
 
     input2.setAttribute("value", "-")
     input2.setAttribute("type", "submit")
     form2.append(input2)
+
+    input1.setAttribute("value", "+")
+    input1.setAttribute("type", "submit")
+    form1.append(input1)
 
     input.setAttribute("value", "DELETE")
     input.setAttribute("type", "submit")
@@ -62,6 +63,8 @@ async function createHabit(data1) {
     div3.setAttribute("class", "buttons")
     div3.append(form1)
     div3.append(form2)
+    
+    div3.append(form1)
     div3.append(form)
 
     section.append(div2)

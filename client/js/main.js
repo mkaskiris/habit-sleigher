@@ -8,11 +8,54 @@ const registerForm = document.querySelector('#register')
 const tablinks = document.getElementsByClassName('tablink')
 const output = document.querySelector("#output")
 // Bind event listeners
-loginForm.addEventListener('submit', login)
-registerForm.addEventListener('submit', register)
-for(const tablink of tablinks)
-    tablink.addEventListener('click', showForm)
 
+if (document.querySelector(".w3-row")) {
+    loginForm.addEventListener('submit', login)
+    registerForm.addEventListener('submit', register)
+}
+
+function currentUser() {
+    const username = localStorage.getItem('username')
+    return username;
+}
+
+
+(async () => {
+    console.log("HERE")
+    let outcome = await userExists(currentUser());
+    if (outcome == false) {
+        localStorage.clear();
+    }
+})()
+
+function logout(){
+    localStorage.clear();
+    location.hash = '#login';
+    window.location.href = "login.html"
+}
+
+async function userExists(username) {
+    const options = {
+        headers: new Headers({'Authorization': localStorage.getItem('token')}),
+    }
+    
+    const fetching = await fetch(`http://localhost:3000/exists/${username}`, options)
+
+    const data = await fetching.json();
+    if (data.err) {
+        console.log(data.err)
+        return false;
+    }
+    if (data.msg == "No user!") {
+        return false;
+    } else if (data.msg == "User found") {
+        return true;
+    }     
+}
+
+for(const tablink of tablinks) {
+    tablink.addEventListener('click', showForm)
+}
 
 // post request user login
 async function loginUser(userData){
@@ -26,8 +69,7 @@ async function loginUser(userData){
         window.location.href = "index.html"
         //axios.defaults.headers.common = {'Authorization': token}
     } catch(err) {
-        // output.textContent = err.response.data.err
-        output.textContent = err
+        output.textContent = err.response.data.err
 
     }
 }
@@ -38,8 +80,7 @@ async function registerUser(userData) {
         const res = await axios.post(`${serverAPI}/register`, userData)
         output.textContent = `Thanks for registering ${userData.username}, please login.`
     } catch(err) {
-         // output.textContent = err.response.data.err
-         output.textContent = err
+         output.textContent = err.response.data.err
     }
 }
 
@@ -68,4 +109,4 @@ function showForm(e) {
     document.getElementById(form).style.display = 'block'
 }
 
-module.exports = { login, register, showForm, loginUser }
+module.exports = { login, register, showForm, loginUser, currentUser, logout }
