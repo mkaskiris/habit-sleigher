@@ -28,17 +28,19 @@ input[type="submit"] {
    background: rgba(133,208,225,1);
  }
 
+
 /* Footer Code */
 footer{
-   background-color:#EEA9A9;
-   padding-top: 25px;
-   margin-top: 25px;
-   padding-bottom: -10px;
-   color: #ffffff;
-   position: absolute;
-   left: 0;
-   bottom: 0;
-   width: 100%;
+  background-color:#EEA9A9;
+  padding-top: 25px;
+  font-size: 20px;
+  margin-top: 50px;
+  padding-bottom: -10px;
+  color: #ffffff;
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  clear: both;
 }
 
 .nav-link {
@@ -64,6 +66,7 @@ footer{
   padding: 0.5rem 1rem;
   margin-left: 10px;
   left: 10px;
+  text-align: center;
 }
 
 
