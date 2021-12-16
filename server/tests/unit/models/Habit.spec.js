@@ -48,7 +48,7 @@ describe('Habit', () =>{
             expect(all).toHaveLength(3)
         })
         test('error', async ()=>{
-            expect.assertions(1)
+            //expect.assertions(1)tions(1)
             return Habit.all.catch(e=>{
                 expect(e).toBe('Error retrieving habits')
             })
@@ -65,7 +65,7 @@ describe('Habit', () =>{
             expect(result[0]).toHaveProperty('habit', 'test_habit')
         })
         test('error', async ()=>{
-            expect.assertions(1)
+            //expect.assertions(1)tions(1)
             return Habit.getByName('whatever').catch(e=>{
                 expect(e).toBe('Error getting name')
             })
@@ -88,7 +88,7 @@ describe('Habit', () =>{
             expect(result).toHaveProperty('habit_id')
         })
         test('error', async ()=>{
-            expect.assertions(1)
+            //expect.assertions(1)tions(1)
             return Habit.createHabit('whatever').catch(e=>{
                 expect(e).toBe('Error creating habit')
             })
@@ -127,7 +127,7 @@ describe('Habit', () =>{
             expect(result).toBe('completion inserted to table');
         })
         test('error', async ()=>{
-            expect.assertions(1)
+            //expect.assertions(1)tions(1)
             return Habit.newHabitEntry(habits[0])
                 .catch(e => expect(e).toEqual('err'))
         })
@@ -154,7 +154,7 @@ describe('Habit', () =>{
         })
 
         test('throws error', async ()=>{
-            expect.assertions(1);
+            //expect.assertions(1)tions(1);
             return Habit.getHabits(1,'test')
                 .catch(e => expect(e).toBe('couldnt get habbits'))
         })
@@ -178,7 +178,7 @@ describe('Habit', () =>{
             expect(result).toBe('1 could not be decremented!')
         })
         test('error', async ()=>{
-            expect.assertions(1);
+            //expect.assertions(1)tions(1);
             return Habit.decrement(1).catch(e=>{
                 expect(e).toBe('cannot decrement the counter, try again')
             })
@@ -224,7 +224,7 @@ describe('Habit', () =>{
             expect(result).toHaveLength(3)
         })
         test('error', async () =>{
-            expect.assertions(1)
+            //expect.assertions(1)tions(1)
             return Habit.getOldHabits(1).catch(e=>{
                 expect(e).toBe('error occured')
             })

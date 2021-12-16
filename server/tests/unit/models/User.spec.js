@@ -35,7 +35,7 @@ describe('Habit', () =>{
             expect(result).toHaveLength(3)
         })
         test('error', async ()=>{
-            expect.assertions(1)
+            //expect.assertions(1)tions(1)
             return User.all.catch(e=>{
                 expect(e).toBe('User not found!')
             })
@@ -50,7 +50,7 @@ describe('Habit', () =>{
             expect(result.rows).toHaveProperty('user_id', 'testing');
         })
         test('error', async ()=>{
-            //expect.assertions(1)
+            ////expect.assertions(1)tions(1)
             return User.exists('hello').catch(e=>{
                 expect(e).toBe('Cannot find if user exists or not')
             })
