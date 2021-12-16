@@ -263,6 +263,6 @@ form > input:last-child {
   .authors {
     color: white;
     text-decoration:none;
-    margin-left: 600px;
+    margin-left: 0px;
     font-size: 15px;
  }
