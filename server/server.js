@@ -12,8 +12,8 @@ app.use('/', userRoutes)
 app.use('/habits', habitRoutes)
 
 
-app.all('*', (req, res) => {
-    res.redirect('/habits')
-})
+// app.all('*', (req, res) => {
+//     res.redirect('/habits')
+// })
 
 module.exports = app

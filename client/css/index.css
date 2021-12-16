@@ -260,10 +260,10 @@ footer{
     section {
         width: 90%;
     }
+    
 
     .habit-list {
         width: 80%;
-        margin: 0 auto;
     }
 
     .decrement, .count, .deletion {
