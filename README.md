@@ -78,7 +78,7 @@ Login / Registration Page
 ![Login and Registration Page](https://i.gyazo.com/a221141a048a51a4416b9188a5db2427.png)
 
 Habits Page
-![Habits Page](https://i.gyazo.com/264b2c28f3a577bd5b8fb4a2d2f3bc49.png)
+![Habits Page](https://i.gyazo.com/54a3c2bd071a73fe869394fe350a5675.png)
 
   
 ## Licence
