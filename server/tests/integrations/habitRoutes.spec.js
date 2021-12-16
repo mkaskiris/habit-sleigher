@@ -29,7 +29,7 @@ describe('habit endpoints', ()=>{
 
     it('/:username', async ()=>{
        const res = await request(api)
-            .post('/test2')
+            .post('/habits/test2')
             .send({
                 habit:'testing habit',
                 frequency: '2'

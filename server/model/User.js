@@ -16,7 +16,7 @@ module.exports = class User {
                 let user = allUsers.rows.map(user => new User(user));
                 resolve(user)
             } catch (err) {
-                reject(`User not found! ${err}`)
+                reject(`User not found!`)
             }
         })
     }
@@ -27,7 +27,7 @@ module.exports = class User {
                 const user = await db.query("SELECT * FROM user_table WHERE username = $1", [username])
                 resolve(user)
             } catch (err) {
-                reject(err, ": Cannot find if user exists or not")
+                reject("Cannot find if user exists or not")
             }
         })
     }

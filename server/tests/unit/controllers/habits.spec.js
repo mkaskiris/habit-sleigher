@@ -19,6 +19,13 @@ describe('habit controller', () => {
             expect(mockStatus).toHaveBeenCalledWith(200);
             expect(mockJson).toHaveBeenCalledWith([{},{},{}]);
         })
+        test('returns 500 on error', async ()=>{
+            jest.spyOn(Habit, 'all', 'get')
+                .mockRejectedValue([])
+            await habitController.getHabits(null,mockRes)
+            expect(mockStatus).toHaveBeenCalledWith(500);
+        })
+
     })
 
     describe('getName', ()=>{
@@ -28,6 +35,13 @@ describe('habit controller', () => {
             const mockReq = {params:{name: 'antonio'}}
             await habitController.getByName(mockReq,mockRes)
             expect(mockStatus).toHaveBeenCalledWith(200);
+        })
+        test('returns with code 500 on fail', async ()=>{
+            jest.spyOn(Habit, 'getByName')
+                .mockRejectedValue([])
+            const mockReq = {params:{name: 'antonio'}}
+            await habitController.getByName(mockReq,mockRes)
+            expect(mockStatus).toHaveBeenCalledWith(500);
         })
     })
 
@@ -60,6 +74,13 @@ describe('habit controller', () => {
             await habitController.getUserHabits(mockReq,mockRes)
             expect(mockStatus).toHaveBeenCalledWith(201);
         })
+        test('returns with 403 on fail', async ()=>{
+            jest.spyOn(Habit, 'getHabits')
+                .mockRejectedValue([{},{},{}] )
+            const mockReq = {params: {habit_id: 1, username:'troy'}}
+            await habitController.getUserHabits(mockReq,mockRes)
+            expect(mockStatus).toHaveBeenCalledWith(403);
+        })
     })
 
     describe('getOldHabit', ()=>{
@@ -81,6 +102,23 @@ describe('habit controller', () => {
             const mockReq = {body: {}}
             await habitController.updateHabitCounter(mockReq,mockRes)
             expect(mockStatus).toHaveBeenCalledWith(201);
+        })
+    })
+
+    describe('decrement', ()=>{
+        test('returns 204 on success', async ()=>{
+            jest.spyOn(Habit, 'decrement')
+                .mockResolvedValue({})
+            const mockReq = {params:{habit_id:1}}
+            await habitController.decrement(mockReq,mockRes)
+            expect(mockStatus).toHaveBeenCalledWith(204)
+        })
+        test('returns 403 on fail', async ()=>{
+            jest.spyOn(Habit, 'decrement')
+                .mockRejectedValue({})
+            const mockReq = {params:{habit_id:1}}
+            await habitController.decrement(mockReq,mockRes)
+            expect(mockStatus).toHaveBeenCalledWith(403)
         })
     })
 })

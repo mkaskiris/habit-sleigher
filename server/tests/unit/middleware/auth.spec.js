@@ -9,7 +9,7 @@ const auth = require('../../../middleware/auth')
 
 //needs fixing
 describe('verifyToken', ()=>{
-    test('verifies token', async (done)=>{
+    test('verifies token', async ()=>{
         const mockReq = {headers:{authorization: 'bear hellow'}}
         jest.spyOn(jwt, 'verify')
             .mockReturnValue({verified:true})
