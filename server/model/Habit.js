@@ -46,7 +46,6 @@ module.exports = class Habit {
                 const days = await db.query("SELECT date_trunc('day', now() - currTime::date) FROM habit WHERE habit_id = $1", [id]);
 
                 let difference = days.rows[0].date_trunc.days;
-                console.log(`This is the differnece: ${difference}`)
                 const dayBefore = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 1;`, [id]);
                 const dayBefore2 = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 2;`, [id]);
                 const dayBefore3 = await db.query(`SELECT COUNT(*) FROM habit_counter WHERE habit_id = $1 AND time_done::DATE = current_date - 3;`, [id]);
@@ -88,26 +87,6 @@ module.exports = class Habit {
             }
         })
     }
-
-    //increments streak in habit table
-    // static updateStreak(habit_id) {
-    //     return new Promise(async (resolve, reject) => {
-    //         try {
-              
-    //             const maxFreq = await db.query("SELECT frequency FROM habit WHERE habit_id = $1", [habit_id])
-    //             const currFreq = await db.query("SELECT currfreq FROM habit WHERE habit_id = $1", [habit_id])
-               
-    //             if (parseInt(currFreq.rows[0].currfreq) + 1 === parseInt(maxFreq.rows[0].frequency)) {
-    //                 await db.query("UPDATE habit SET currstreak = currstreak + 1 WHERE habit_id = $1;", [habit_id]);
-    //             }
-                
-    //             resolve(habit_id)
-
-    //         } catch (error) {
-    //             reject(`Could not append habit`);
-    //         }
-    //     })
-    // }
 
     static deleteHabit(id) {
         return new Promise(async (resolve, reject) => {
@@ -193,6 +172,7 @@ module.exports = class Habit {
                 } 
             }
             else if(parseInt(numOfEntries.rows[0].count) == parseInt(maxFreq.rows[0].frequency)){
+             
                 await db.query(`UPDATE habit SET currstreak = currstreak + 1 WHERE habit_id = $1;`,[data.habit_id]);
                 //disable button
             }

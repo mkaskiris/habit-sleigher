@@ -6,7 +6,7 @@ const loginForm = document.querySelector('#login')
 
 const registerForm = document.querySelector('#register')
 const tablinks = document.getElementsByClassName('tablink')
-
+const output = document.querySelector("#output")
 // Bind event listeners
 loginForm.addEventListener('submit', login)
 registerForm.addEventListener('submit', register)
@@ -26,7 +26,9 @@ async function loginUser(userData){
         window.location.href = "index.html"
         //axios.defaults.headers.common = {'Authorization': token}
     } catch(err) {
-        output.textContent = err.response.data.err
+        // output.textContent = err.response.data.err
+        output.textContent = err
+
     }
 }
 
@@ -36,7 +38,8 @@ async function registerUser(userData) {
         const res = await axios.post(`${serverAPI}/register`, userData)
         output.textContent = `Thanks for registering ${userData.username}, please login.`
     } catch(err) {
-        output.textContent = err.response.data.err
+         // output.textContent = err.response.data.err
+         output.textContent = err
     }
 }
 

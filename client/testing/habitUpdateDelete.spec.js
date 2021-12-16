@@ -29,11 +29,6 @@ describe('New habit, update and delete', () => {
             const evt= { preventDefault: jest.fn(), target: {name: "test"}}
             await app.deleteHabit(evt)
         })
-        
-        it("Updates the habit", async () => {
-            await app.updateHabit(evt)
-        })
-
         it("current user", async () => {
             app.currentUser();
         })

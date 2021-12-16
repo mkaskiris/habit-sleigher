@@ -9,7 +9,6 @@ const jwt = require("jsonwebtoken");
 //                 res.status(403).json({ err: 'Invalid token' })
 //             } 
 //             else {
-//                 res.status(200);
 //                 next();
 //             }
 //         })
@@ -31,6 +30,4 @@ function verifyToken(req,res,next){
         }
     }
 }
-module.exports = {
-    verifyToken
-}
+module.exports = {verifyToken}

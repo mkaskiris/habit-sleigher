@@ -1,4 +1,4 @@
-const { newHabit, deleteHabit, decrementHabit, updateHabit } = require('./habitUpdateDelete')
+const { newHabit, deleteHabit, decrementHabit } = require('./habitUpdateDelete')
 const { createHabit } = require('./creation')
 
 const habitForm = document.querySelector(".task")
@@ -53,8 +53,6 @@ if (document.querySelector("body > .hidden_form")) {
                 const { input1, input2, div, habitFrequency } = await createHabit(data1)
 
                 input1.addEventListener('click', async (e) => {
-                    // Incrementing the habit counter
-                    updateHabit(data1.habit_id)
                     e.preventDefault()
 
                     const data2 = {
@@ -120,6 +118,12 @@ if (document.querySelector("body > .hidden_form")) {
                         habitCountData.setAttribute("disabled", "true")
                     })
                 }
+                
+                if (data1.currfreq == 0) {
+                    document.querySelectorAll(`.inner-habit[name='${data1.habit_id}'] > section > .buttons > .decrement > input`).forEach(habitCountData => {
+                        habitCountData.setAttribute("disabled", "true")
+                    })
+                }
 
             });
 
@@ -176,5 +180,5 @@ if (document.querySelector("body > .hidden_form")) {
     })
 
 
-    module.exports = { createHabit, updateData, habitlist, progessBarIncrease, oldData, deleteHabit, updateHabit, currentUsr, currentUser, newHabit }
+    module.exports = { createHabit, updateData, habitlist, progessBarIncrease, oldData, deleteHabit, currentUsr, currentUser, newHabit }
 }
