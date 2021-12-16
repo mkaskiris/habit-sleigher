@@ -290,9 +290,14 @@ footer{
      
 }
 
-@media only screen and (max-width: 674px) {
+/* @media only screen and (max-width: 674px) {
     body {
         min-width: 700px;
      }
    
 }
+    color: white;
+    text-decoration:none;
+    margin-left: 0px;
+    font-size: 15px;
+ } */
