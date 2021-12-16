@@ -30,7 +30,7 @@ The website can be viewed in this link: [https://habit-sleigher.netlify.app/](ht
 ### Server Testing
 
 -  In the root directory, run `bash _scripts/startTest.sh`
-![Backend Coverage](https://user-images.githubusercontent.com/55515038/146405353-d8f794f6-ecf3-45af-b52b-fcecfe9a8d52.png)
+- ![Backend Coverage](https://user-images.githubusercontent.com/55515038/146405353-d8f794f6-ecf3-45af-b52b-fcecfe9a8d52.png)
 
 
 ## Technologies
