@@ -244,7 +244,6 @@ if (document.querySelector("body > .hidden_form")) {
                     })
                 }
                 
-                console.log(data1.currfreq)
                 if (data1.currfreq == 0) {
                     document.querySelectorAll(`.inner-habit[name='${data1.habit_id}'] > section > .buttons > .decrement > input`).forEach(habitCountData => {
                         habitCountData.setAttribute("disabled", "true")
@@ -384,12 +383,9 @@ async function decrementHabit(e) {
         }
         const decrementHabit = await fetch(`http://localhost:3000/habits/decrement/${e}`, options);
         const data = await decrementHabit.json()
-        console.log("here")
         if (data.err) {
-            console.log("here")
             throw Error(data.err)
         }
-        window.location.reload()
     } catch (err) {
         console.warn(err);
     }
@@ -422,7 +418,6 @@ function currentUser() {
 
 
 (async () => {
-    console.log("HERE")
     let outcome = await userExists(currentUser());
     if (outcome == false) {
         localStorage.clear();
@@ -444,7 +439,6 @@ async function userExists(username) {
 
     const data = await fetching.json();
     if (data.err) {
-        console.log(data.err)
         return false;
     }
     if (data.msg == "No user!") {

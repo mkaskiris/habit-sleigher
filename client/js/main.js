@@ -21,7 +21,6 @@ function currentUser() {
 
 
 (async () => {
-    console.log("HERE")
     let outcome = await userExists(currentUser());
     if (outcome == false) {
         localStorage.clear();
@@ -43,7 +42,6 @@ async function userExists(username) {
 
     const data = await fetching.json();
     if (data.err) {
-        console.log(data.err)
         return false;
     }
     if (data.msg == "No user!") {

@@ -70,12 +70,9 @@ async function decrementHabit(e) {
         }
         const decrementHabit = await fetch(`http://localhost:3000/habits/decrement/${e}`, options);
         const data = await decrementHabit.json()
-        console.log("here")
         if (data.err) {
-            console.log("here")
             throw Error(data.err)
         }
-        window.location.reload()
     } catch (err) {
         console.warn(err);
     }
