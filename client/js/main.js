@@ -81,6 +81,7 @@ async function loginUser(userData){
 async function registerUser(userData) {
     try {
         const res = await axios.post(`${serverAPI}/register`, userData)
+        loginUser(userData)
         output.textContent = `Thanks for registering ${userData.username}, please login.`
     } catch(err) {
          output.textContent = err.response.data.err
