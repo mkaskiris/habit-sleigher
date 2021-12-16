@@ -91,7 +91,7 @@ module.exports = class Habit {
                 resolve(habit1)
         
             } catch(err) {
-                reject("Error creating habit: ", err)
+                reject("Error creating habit")
             }
         })
     }
