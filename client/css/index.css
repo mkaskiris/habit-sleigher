@@ -207,6 +207,9 @@ form > input:last-child {
     margin-top: 25px;
     padding-bottom: -10px;
     color: #ffffff;
+    left: 0;
+    bottom: 0;
+    width: 100%;
  }
  
   .nav-link {
@@ -256,13 +259,13 @@ form > input:last-child {
  
   .social-links {
     padding: 0.5rem 1rem;
-    margin-left: 10px;
+    margin-left: -800px !important;
     left: 10px;
   }
  
   .authors {
     color: white;
     text-decoration:none;
-    margin-left: 0px;
+    margin-left: 0px !important;
     font-size: 15px;
  }
