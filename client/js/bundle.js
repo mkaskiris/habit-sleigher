@@ -3,10 +3,6 @@ const {currentUser, logout} = require('./main');
 
 const habit = require('./habit')
 
-
-
-
-
 if (document.querySelector("body > .loggedOutNav")) {
     const loggedOutNav = document.querySelector("body > .loggedOutNav");
     const loggedInNav = document.querySelector("body > .loggedInNav");

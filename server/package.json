@@ -10,7 +10,6 @@
     "node": "node index.js",
     "seedDev": "node db/seedDev.js",
     "dev": "node db/seedDev.js && nodemon -L index.js",
-    "dev1": "concurrently \"watchify ../client/js/app.js -o ../client/js/bundle.js\" \"python -m http.server\"",
     "dev-container": "bash ./_scripts/start_db.sh"
   },
   "keywords": [],

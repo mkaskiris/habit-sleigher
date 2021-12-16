@@ -5,14 +5,17 @@
   "main": "main.js",
   "scripts": {
     "test": "jest --silent --watchAll",
-    "coverage": "jest --coverage --silent --watchAll"
+    "coverage": "jest --coverage --silent --watchAll",
+    "dev": "concurrently \"watchify ./js/app.js -o ./js/bundle.js\" \"python -m http.server\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "concurrently": "^6.4.0",
     "jest": "^27.4.4",
-    "jest-fetch-mock": "^3.0.3"
+    "jest-fetch-mock": "^3.0.3",
+    "watchify": "^4.0.0"
   },
   "dependencies": {
     "axios": "^0.24.0",
