@@ -14,7 +14,7 @@ The website can be viewed in this link: [https://habit-sleigher.netlify.app/](ht
 ### Installation
 - Clone/fork this repository
 - To **run** the application, run `bash _scripts/startDB.sh` and navigate to `localhost:8080`
-- For **testing**, run `bash _scripts/startTest.sh`
+- For **testing**, swtich to test branch and run `bash _scripts/startTest.sh`
 
 ### Usage
 - Run the application using the first command above
